@@ -64,7 +64,7 @@ local function billboard(parent, text, color, offsetY)
 end
 
 part(ws, 'SeaFloor', 0, -3.5, -2500, 12000, 5, 12000, {110, 140, 170}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'WaterVisual', 0, 0, -2500, 12000, 7, 12000, {40, 130, 210}, Enum.Material.Glass, 0.45, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'WaterVisual', 0, -0.2, -2500, 12000, 0.4, 12000, {40, 130, 210}, Enum.Material.Glass, 0.72, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'DockPlanks', 0, 0.0, 58, 44, 1.2, 24, {150, 110, 70}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'DockArm', 0, 0.0, 84, 30, 1.1, 10, {140, 100, 65}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'DockPillar_-18_50', -18, -1.1, 50, 3, 3.4, 3, {120, 90, 60}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block, 0, 0, 0)
@@ -89,14 +89,6 @@ part(ws, 'RailEnd1', 0, 1.4, 46.6, 39, 0.5, 0.5, {110, 80, 50}, Enum.Material.Wo
 part(ws, 'RailEnd2', 0, 1.4, 69.4, 39, 0.5, 0.5, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
 do local p = part(ws, 'Lantern_-20_47', -20, 1.6, 47, 0.6, 4, 0.6, {60, 55, 50}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
 local b = part(ws, 'LanternBall_-20_47', -20, 3.8, 47, 1.1, 1.1, 1.1, {255, 180, 80}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
-light(b, {255, 170, 70}, 1, 28)
-end
-do local p = part(ws, 'Lantern_20_47', 20, 1.6, 47, 0.6, 4, 0.6, {60, 55, 50}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
-local b = part(ws, 'LanternBall_20_47', 20, 3.8, 47, 1.1, 1.1, 1.1, {255, 180, 80}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
-light(b, {255, 170, 70}, 1, 28)
-end
-do local p = part(ws, 'Lantern_-20_69', -20, 1.6, 69, 0.6, 4, 0.6, {60, 55, 50}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
-local b = part(ws, 'LanternBall_-20_69', -20, 3.8, 69, 1.1, 1.1, 1.1, {255, 180, 80}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
 light(b, {255, 170, 70}, 1, 28)
 end
 do local p = part(ws, 'Lantern_20_69', 20, 1.6, 69, 0.6, 4, 0.6, {60, 55, 50}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
@@ -149,7 +141,7 @@ sp.Name = 'SpawnLocation'
 sp.Anchored = true
 sp.CanCollide = true
 sp.Size = Vector3.new(10, 0.6, 10)
-sp.CFrame = CFrame.new(0, 0.2, 66)
+sp.CFrame = CFrame.new(0, 0.2, 66) * CFrame.Angles(0, math.pi, 0)
 sp.Color = Color3.fromRGB(90, 220, 170)
 sp.Material = Enum.Material.SmoothPlastic
 sp.Neutral = true
@@ -313,7 +305,7 @@ local t1 = part(ws, 'LhTower1', 232, 2.0, 42, 9, 8, 9, {240, 238, 230}, Enum.Mat
 part(ws, 'LhTower2', 232, 5.5, 42, 7, 8, 7, {240, 238, 230}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
 part(ws, 'LhTower3', 232, 8.0, 42, 5, 4, 5, {200, 60, 60}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
 local b = part(ws, 'LhLight', 232, 10.5, 42, 2.2, 2.2, 2.2, {255, 240, 160}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
-light(b, {255, 230, 140}, 2, 70)
+light(b, {255, 230, 140}, 1.5, 40)
 end
 part(ws, 'LhRoof', 232, 11.2, 42, 6, 1.6, 6, {90, 90, 95}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'Coral_0', 28.98, -2.8, 59.14, 0.8, 1.4, 0.8, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
@@ -361,115 +353,75 @@ part(ws, 'SeaRock_5', 81.48, -3.0, 92.63, 2.86, 2.32, 2.29, {110, 110, 118}, Enu
 part(ws, 'SeaRock_6', -6.26, -3.0, 47.69, 2.55, 2.03, 3.97, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, -0.06, -0.04)
 part(ws, 'SeaRock_7', 28.48, -3.0, 12.42, 3.4, 2.34, 3.51, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.01, 0.02, 0.09)
 part(ws, 'BuoyPole_route0', 0, 0.5, -100, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route0', 0, 4.6, -100, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 214, 150}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route0', 0, 4.6, -100, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route1', 0, 0.5, -400, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route1', 0, 4.6, -400, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 214, 150}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route1', 0, 4.6, -400, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route2', 0, 0.5, -700, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route2', 0, 4.6, -700, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {70, 220, 210}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route2', 0, 4.6, -700, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route3', 0, 0.5, -1000, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route3', 0, 4.6, -1000, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {70, 220, 210}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route3', 0, 4.6, -1000, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route4', 0, 0.5, -1300, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route4', 0, 4.6, -1300, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {70, 220, 210}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route4', 0, 4.6, -1300, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route5', 0, 0.5, -1600, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route5', 0, 4.6, -1600, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {40, 100, 200}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route5', 0, 4.6, -1600, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route6', 0, 0.5, -1900, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route6', 0, 4.6, -1900, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {40, 100, 200}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route6', 0, 4.6, -1900, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route7', 0, 0.5, -2200, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route7', 0, 4.6, -2200, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {40, 100, 200}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route7', 0, 4.6, -2200, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route8', 0, 0.5, -2500, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route8', 0, 4.6, -2500, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 100, 50}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route8', 0, 4.6, -2500, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route9', 0, 0.5, -2800, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route9', 0, 4.6, -2800, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 100, 50}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route9', 0, 4.6, -2800, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route10', 0, 0.5, -3100, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route10', 0, 4.6, -3100, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 100, 50}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route10', 0, 4.6, -3100, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route11', 0, 0.5, -3400, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route11', 0, 4.6, -3400, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 100, 50}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route11', 0, 4.6, -3400, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route12', 0, 0.5, -3700, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route12', 0, 4.6, -3700, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {200, 235, 255}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route12', 0, 4.6, -3700, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route13', 0, 0.5, -4000, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route13', 0, 4.6, -4000, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {200, 235, 255}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route13', 0, 4.6, -4000, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route14', 0, 0.5, -4300, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route14', 0, 4.6, -4300, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {200, 235, 255}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route14', 0, 4.6, -4300, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route15', 0, 0.5, -4600, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-do local b = part(ws, 'BuoyBall_route15', 0, 4.6, -4600, 2.4, 2.4, 2.4, {120, 90, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {120, 90, 200}, 0.8, 20)
-end
+part(ws, 'BuoyBall_route15', 0, 4.6, -4600, 2.4, 2.4, 2.4, {120, 90, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'ZoneDisc_sunshall', 0, -0.35, 0, 216.0, 0.3, 216.0, {255, 214, 150}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_sunshall', 0, 0, 0, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_sunshall', 0, 4.6, 0, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 214, 150}, 0.9, 24)
 billboard(b, [===[Sunshall Cove]===], {255, 214, 150}, 6)
 end
 part(ws, 'ZoneDisc_whisper', 0, -0.35, -1000, 216.0, 0.3, 216.0, {70, 220, 210}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_whisper', 0, 0, -1000, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_whisper', 0, 4.6, -1000, 2.4, 2.4, 2.4, {70, 220, 210}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {70, 220, 210}, 0.9, 24)
 billboard(b, [===[Whisper Shallows]===], {70, 220, 210}, 6)
 end
 part(ws, 'ZoneDisc_drop', 0, -0.35, -2000, 216.0, 0.3, 216.0, {40, 100, 200}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_drop', 0, 0, -2000, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_drop', 0, 4.6, -2000, 2.4, 2.4, 2.4, {40, 100, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {40, 100, 200}, 0.9, 24)
 billboard(b, [===[The Drop]===], {40, 100, 200}, 6)
 end
 part(ws, 'ZoneDisc_ember', 0, -0.35, -3000, 216.0, 0.3, 216.0, {255, 100, 50}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_ember', 0, 0, -3000, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_ember', 0, 4.6, -3000, 2.4, 2.4, 2.4, {255, 100, 50}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {255, 100, 50}, 0.9, 24)
 billboard(b, [===[Ember Falls]===], {255, 100, 50}, 6)
 end
 part(ws, 'ZoneDisc_frost', 0, -0.35, -4000, 216.0, 0.3, 216.0, {200, 235, 255}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_frost', 0, 0, -4000, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_frost', 0, 4.6, -4000, 2.4, 2.4, 2.4, {200, 235, 255}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {200, 235, 255}, 0.9, 24)
 billboard(b, [===[Frostreach]===], {200, 235, 255}, 6)
 end
 part(ws, 'ZoneDisc_abyss', 0, -0.35, -5000, 216.0, 0.3, 216.0, {120, 90, 200}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_abyss', 0, 0, -5000, 360, 80, 360, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_abyss', 0, 4.6, -5000, 2.4, 2.4, 2.4, {120, 90, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {120, 90, 200}, 0.9, 24)
 billboard(b, [===[Abyssal Trench]===], {120, 90, 200}, 6)
 end
 part(ws, 'ZoneDisc_hidden_isles', 800, -0.35, -3000, 108.0, 0.3, 108.0, {240, 255, 240}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_hidden_isles', 800, 0, -3000, 180, 80, 180, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_hidden_isles', 800, 4.6, -3000, 2.4, 2.4, 2.4, {240, 255, 240}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {240, 255, 240}, 0.9, 24)
 billboard(b, [===[Hidden Isle of Whispers]===], {240, 255, 240}, 6)
 end
 part(ws, 'ZoneDisc_sunken_grotto', 800, -0.35, -2000, 108.0, 0.3, 108.0, {120, 220, 200}, Enum.Material.SmoothPlastic, 0.55, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'ZoneRegion_sunken_grotto', 800, 0, -2000, 180, 80, 180, {255, 255, 255}, Enum.Material.SmoothPlastic, 1.0, false, Enum.PartType.Block, 0, 0, 0)
 do local b = part(ws, 'BuoyBall_sunken_grotto', 800, 4.6, -2000, 2.4, 2.4, 2.4, {120, 220, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
-light(b, {120, 220, 200}, 0.9, 24)
 billboard(b, [===[The Sunken Grotto]===], {120, 220, 200}, 6)
 end
 part(ws, 'Seagrass_0', 102.71, -2.0, -857.15, 0.3, 4.13, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.1, 0, -0.21)

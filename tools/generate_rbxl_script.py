@@ -175,13 +175,11 @@ def palm(bx, bz, name):
 
 def buoy(bx, bz, color, name):
     P(f"BuoyPole_{name}", bx, 0.5, bz, 0.6, 8, 0.6, (90, 90, 100), "SmoothPlastic", 0, False, "Block")
-    A(f"do local b = part(ws, 'BuoyBall_{name}', {fmt(bx)}, 4.6, {fmt(bz)}, 2.4, 2.4, 2.4, {lua_color(color)}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)")
-    A(f"light(b, {lua_color(color)}, 0.8, 20)")
-    A("end")
+    A(f"part(ws, 'BuoyBall_{name}', {fmt(bx)}, 4.6, {fmt(bz)}, 2.4, 2.4, 2.4, {lua_color(color)}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)")
 
 # ═══════════ WORLD BASE (water surface Y = 0) ═══════════
 P("SeaFloor", 0, -3.5, -2500, 12000, 5, 12000, (110, 140, 170), "SmoothPlastic", 0, True, "Block")
-P("WaterVisual", 0, 0, -2500, 12000, 7, 12000, (40, 130, 210), "Glass", 0.45, False, "Block")
+P("WaterVisual", 0, -0.2, -2500, 12000, 0.4, 12000, (40, 130, 210), "Glass", 0.72, False, "Block")
 
 # ═══════════ SUNSHALL COVE ═══════════
 # Dock — top at +0.6, ABOVE water
@@ -197,7 +195,7 @@ for side in (-19, 19):
 P("RailEnd1", 0, 1.4, 46.6, 39, 0.5, 0.5, (110, 80, 50), "Wood", 0, True, "Block")
 P("RailEnd2", 0, 1.4, 69.4, 39, 0.5, 0.5, (110, 80, 50), "Wood", 0, True, "Block")
 # Lanterns
-for (lx, lz) in [(-20, 47), (20, 47), (-20, 69), (20, 69)]:
+for (lx, lz) in [(-20, 47), (20, 69)]:
     A(f"do local p = part(ws, 'Lantern_{lx}_{lz}', {fmt(lx)}, 1.6, {fmt(lz)}, 0.6, 4, 0.6, {{60, 55, 50}}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)")
     A(f"local b = part(ws, 'LanternBall_{lx}_{lz}', {fmt(lx)}, 3.8, {fmt(lz)}, 1.1, 1.1, 1.1, {{255, 180, 80}}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
     A(f"light(b, {{255, 170, 70}}, 1, 28)")
@@ -249,7 +247,7 @@ A("sp.Name = 'SpawnLocation'")
 A("sp.Anchored = true")
 A("sp.CanCollide = true")
 A("sp.Size = Vector3.new(10, 0.6, 10)")
-A("sp.CFrame = CFrame.new(0, 0.2, 66)")
+A("sp.CFrame = CFrame.new(0, 0.2, 66) * CFrame.Angles(0, math.pi, 0)")
 A("sp.Color = Color3.fromRGB(90, 220, 170)")
 A("sp.Material = Enum.Material.SmoothPlastic")
 A("sp.Neutral = true")
@@ -288,7 +286,7 @@ A("local t1 = part(ws, 'LhTower1', 232, 2.0, 42, 9, 8, 9, {240, 238, 230}, Enum.
 A("part(ws, 'LhTower2', 232, 5.5, 42, 7, 8, 7, {240, 238, 230}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)")
 A("part(ws, 'LhTower3', 232, 8.0, 42, 5, 4, 5, {200, 60, 60}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)")
 A("local b = part(ws, 'LhLight', 232, 10.5, 42, 2.2, 2.2, 2.2, {255, 240, 160}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
-A("light(b, {255, 230, 140}, 2, 70)")
+A("light(b, {255, 230, 140}, 1.5, 40)")
 A("end")
 P("LhRoof", 232, 11.2, 42, 6, 1.6, 6, (90, 90, 95), "SmoothPlastic", 0, True, "Cylinder")
 # Underwater life near Sunshall
@@ -334,7 +332,6 @@ for zid, z in ZONES.items():
     P(f"ZoneDisc_{zid}", x, -0.35, zz, wx * 0.6, 0.3, wz * 0.6, c, "SmoothPlastic", 0.55, True, "Cylinder")
     P(f"ZoneRegion_{zid}", x, 0, zz, wx, 80, wz, (255, 255, 255), "SmoothPlastic", 1.0, False, "Block")
     A(f"do local b = part(ws, 'BuoyBall_{zid}', {fmt(x)}, 4.6, {fmt(zz)}, 2.4, 2.4, 2.4, {lua_color(c)}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)")
-    A(f"light(b, {lua_color(c)}, 0.9, 24)")
     A(f"billboard(b, {lua_string(z['label'])}, {lua_color(c)}, 6)")
     A("end")
 
