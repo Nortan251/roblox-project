@@ -121,3 +121,15 @@ tidebound/src/
 - **Testing:** 30/30 modules load, 42 smoke checks + sim tests PASS (incl. cosmetic
   purchase/equip/guard, contest top, title equip). Installer parts (13) verified
   end-to-end: 35 instances, 0 failures.
+
+## 🚀 DEPLOY STATUS (2026-08-03)
+- **PLACE FILE DEPLOYED: version 11** (place 83680094307668, universe 10621536269) — confirmed by API.
+  Includes the auto-built map: 32 scripts, 879 parts (village, dock, 8 zones, decor, NPCs, fish schools).
+- **BLOCKER FOUND:** the experience's *metadata* (name/description/icon) was never completed, so the
+  public API shows "[TITLE UNAVAILABLE]" and the game looks undeployed on the website.
+- **Why I can't set it:** the publish API key only has "Place Publishing" scope; setting the
+  experience name needs the "Experience"/universe:write scope (403 PERMISSION_DENIED confirmed).
+- **Fix (2 min, user-side):** Creator Dashboard → Creations → Tidebound → Configure → set
+  Name = "Tidebound", Description, Icon → Save. Then the game appears properly.
+- **Alternative:** user creates a NEW API key with the Experience API system (universe:write)
+  and I can set name/description/genre via the cloud API automatically.
