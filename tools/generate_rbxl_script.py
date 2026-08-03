@@ -216,6 +216,30 @@ def buoy(bx, bz, color, name):
 P("SeaFloor", 0, -3.5, -2500, 12000, 5, 12000, (110, 140, 170), "SmoothPlastic", 0, True, "Block")
 P("WaterVisual", 0, -0.2, -2500, 12000, 0.4, 12000, (40, 130, 210), "Glass", 0.72, False, "Block")
 
+# ═══════════ BAKED SUNSHALL ISLAND (visible instantly in Studio editor + game) ═══════════
+P("IslandDeep", 0, -3.0, 150, 300, 6, 300, (190, 175, 140), "Sand", 0, True, "Cylinder")
+P("IslandMid", 0, 0.25, 150, 190, 0.5, 190, (205, 190, 152), "Sand", 0, True, "Cylinder")
+P("IslandBeach", 0, 0.55, 150, 160, 0.4, 160, (232, 214, 160), "Sand", 0, True, "Cylinder")
+P("IslandPlateau", 0, 0.75, 150, 124, 0.3, 124, (118, 168, 92), "Grass", 0, True, "Cylinder")
+P("IslandHillN1", 0, 2.6, 245, 72, 3.4, 50, (108, 150, 80), "Grass", 0, True, "Cylinder")
+P("IslandHillN2", 0, 4.4, 252, 40, 2.2, 30, (100, 100, 108), "Rock", 0, True, "Cylinder")
+P("IslandHillS", 0, 2.2, 118, 48, 2.8, 34, (108, 150, 80), "Grass", 0, True, "Cylinder")
+
+# Grass tufts, bushes, flowers on the green (density = alive)
+for i in range(24):
+    A(f"blob(ws, 'GrassTuft{i}', {fmt(rng.uniform(-55, 55))}, 1.0, {fmt(100 + rng.uniform(0, 95))}, {fmt(rng.uniform(0.7, 1.1))}, {fmt(rng.uniform(0.6, 1.0))}, {fmt(rng.uniform(0.7, 1.1))}, {{96, 150, 72}}, Enum.Material.SmoothPlastic, 0, false)")
+for i in range(10):
+    A(f"blob(ws, 'Bush{i}', {fmt(rng.uniform(-55, 55))}, 1.05, {fmt(105 + rng.uniform(0, 80))}, {fmt(rng.uniform(1.6, 2.4))}, {fmt(rng.uniform(1.2, 1.8))}, {fmt(rng.uniform(1.6, 2.4))}, {{58, 110, 60}}, Enum.Material.SmoothPlastic, 0, false)")
+FLOWER_COLORS = [(255, 120, 160), (255, 200, 90), (200, 130, 255), (120, 200, 255), (255, 90, 90)]
+for i in range(14):
+    fc = FLOWER_COLORS[i % 5]
+    A(f"blob(ws, 'Flower{i}', {fmt(rng.uniform(-55, 55))}, 1.1, {fmt(102 + rng.uniform(0, 90))}, 0.35, 0.35, 0.35, {{{fc[0]}, {fc[1]}, {fc[2]}}}, Enum.Material.SmoothPlastic, 0, false)")
+# Driftwood on the side beaches
+for i in range(4):
+    dx = rng.choice([rng.uniform(-75, -50), rng.uniform(50, 75)])
+    P(f"Driftwood{i}", dx, 0.9, rng.uniform(80, 195), 4, 0.5, 1, (120, 96, 70), "Wood", 0, True, "Cylinder", 0, rng.uniform(0, 3), 0)
+
+
 # ═══════════ SUNSHALL COVE ═══════════
 # Dock — top at +0.6, ABOVE water
 P("DockPlanks", 0, 0.0, 58, 44, 1.2, 24, (150, 110, 70), "Wood", 0, True, "Block")
@@ -305,14 +329,14 @@ for i in range(14):
          (rng.uniform(2, 5.5), rng.uniform(1.5, 4), rng.uniform(2, 5.5)))
 # Campfire
 A("do")
-A("local f = part(ws, 'Fire', 42, 1.5, 138, 1.6, 2.4, 1.6, {255, 140, 40}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
+A("local f = part(ws, 'Fire', 42, 1.75, 138, 1.6, 2.4, 1.6, {255, 140, 40}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
 A("light(f, {255, 150, 60}, 1.2, 22)")
 A("fx(f, {190, 190, 195}, 8, 0.8, 1.6, 1, 2.5, 0.4, 0.9, 0.3, 1)")
 A("end")
 for i in range(4):
-    P(f"CampLog_{i}", 42 + jitter(1), 1.0, 138 + jitter(1), 2.2, 0.5, 0.5, (100, 66, 40), "Wood", 0, True, "Cylinder", 0, 0, jitter(0.5))
+    P(f"CampLog_{i}", 42 + jitter(1), 1.25, 138 + jitter(1), 2.2, 0.5, 0.5, (100, 66, 40), "Wood", 0, True, "Cylinder", 0, 0, jitter(0.5))
 for i in range(6):
-    P(f"CampRing_{i}", 42 + math.cos(i * 1.05) * 2.6, 0.85, 138 + math.sin(i * 1.05) * 2.6, 1.1, 0.9, 1.1, (110, 108, 112), "Rock", 0, True, "Ball")
+    P(f"CampRing_{i}", 42 + math.cos(i * 1.05) * 2.6, 1.1, 138 + math.sin(i * 1.05) * 2.6, 1.1, 0.9, 1.1, (110, 108, 112), "Rock", 0, True, "Ball")
 # Lighthouse islet
 for i in range(5):
     rock(f"IsletRock_{i}", 228, 40, 0.4 + rng.uniform(0, 1.2), (rng.uniform(4, 7), rng.uniform(2, 3), rng.uniform(4, 7)))
@@ -446,12 +470,12 @@ A("part(ws, 'HousePorchPost2', 49, 3.2, 141, 0.6, 6.4, 0.6, {100, 70, 45}, Enum.
 A("end")
 
 A("do")
-A("part(ws, 'WellRing', -18, 1.0, 128, 4, 2, 4, {110, 110, 116}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder)")
-A("part(ws, 'WellWater', -18, 0.8, 128, 3, 0.5, 3, {60, 140, 190}, Enum.Material.Glass, 0.4, false, Enum.PartType.Cylinder)")
-A("part(ws, 'WellPost1', -20.4, 2.6, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("part(ws, 'WellPost2', -15.6, 2.6, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("part(ws, 'WellRoof', -18, 5.6, 128, 6, 0.4, 5, {130, 95, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("part(ws, 'WellBucket', -18, 1.6, 128, 0.9, 1.1, 0.9, {140, 140, 145}, Enum.Material.Metal, 0, true, Enum.PartType.Cylinder)")
+A("part(ws, 'WellRing', -18, 1.25, 128, 4, 2, 4, {110, 110, 116}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder)")
+A("part(ws, 'WellWater', -18, 1.05, 128, 3, 0.5, 3, {60, 140, 190}, Enum.Material.Glass, 0.4, false, Enum.PartType.Cylinder)")
+A("part(ws, 'WellPost1', -20.4, 2.85, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("part(ws, 'WellPost2', -15.6, 2.85, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("part(ws, 'WellRoof', -18, 5.85, 128, 6, 0.4, 5, {130, 95, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("part(ws, 'WellBucket', -18, 1.85, 128, 0.9, 1.1, 0.9, {140, 140, 145}, Enum.Material.Metal, 0, true, Enum.PartType.Cylinder)")
 A("end")
 
 # Fence along the beach edge
@@ -490,7 +514,7 @@ A("end")
 # ═══════════ SUNSHALL COMPLETE (village life pass) ═══════════
 # Great Fig Tree — village center, lanterns in the branches at night
 A("do")
-A("local figBase = part(ws, 'FigBase', 2, 1.6, 158, 2.6, 4, 2.6, {96, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder)")
+A("local figBase = part(ws, 'FigBase', 2, 1.9, 158, 2.6, 4, 2.6, {96, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder)")
 A("blob(ws, 'FigTrunk', 2, 3.2, 158, 3.2, 5, 3.2, {110, 74, 44}, Enum.Material.Wood, 0, false)")
 A("blob(ws, 'FigCanopy1', 2, 6.6, 158, 9, 3.4, 9, {44, 120, 52}, Enum.Material.SmoothPlastic, 0, false)")
 A("blob(ws, 'FigCanopy2', -2, 6.2, 162, 7, 3, 7, {52, 132, 58}, Enum.Material.SmoothPlastic, 0, false)")
@@ -513,29 +537,29 @@ for i, (px, pz) in enumerate([(8, 143), (15, 139), (23, 136), (31, 135), (38, 13
 
 # Path lanterns (warm pools of light along the walk)
 for i, (px, pz) in enumerate([(6, 88), (2, 116), (-14, 152), (26, 135)]):
-    A(f"do local pl = part(ws, 'PathLantern{i}', {px}, 1.9, {pz}, 0.55, 3.4, 0.55, {{80, 66, 50}}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder)")
-    A(f"local pb = part(ws, 'PathLanternBall{i}', {px}, 3.2, {pz}, 1.0, 1.0, 1.0, {{255, 205, 110}}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
+    A(f"do local pl = part(ws, 'PathLantern{i}', {px}, 2.1, {pz}, 0.55, 3.4, 0.55, {{80, 66, 50}}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder)")
+    A(f"local pb = part(ws, 'PathLanternBall{i}', {px}, 3.4, {pz}, 1.0, 1.0, 1.0, {{255, 205, 110}}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)")
     A(f"light(pb, {{255, 195, 100}}, 0.9, 16)")
     A("end")
 
 # Village bell on a wooden frame (charm + future ringable)
 A("do")
-A("part(ws, 'BellPost1', -28, 1.4, 160, 0.7, 5, 0.7, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("part(ws, 'BellPost2', -24, 1.4, 160, 0.7, 5, 0.7, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("part(ws, 'BellBeam', -26, 3.9, 160, 5, 0.6, 0.6, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
-A("local bell = part(ws, 'VillageBell', -26, 3.4, 160, 1.8, 1.8, 1.8, {200, 165, 70}, Enum.Material.Metal, 0, false, Enum.PartType.Ball)")
-A("part(ws, 'BellClapper', -26, 2.6, 160, 0.5, 0.8, 0.5, {120, 100, 55}, Enum.Material.Metal, 0, false, Enum.PartType.Ball)")
+A("part(ws, 'BellPost1', -28, 1.7, 160, 0.7, 5, 0.7, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("part(ws, 'BellPost2', -24, 1.7, 160, 0.7, 5, 0.7, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("part(ws, 'BellBeam', -26, 4.1, 160, 5, 0.6, 0.6, {100, 72, 46}, Enum.Material.Wood, 0, true, Enum.PartType.Block)")
+A("local bell = part(ws, 'VillageBell', -26, 3.6, 160, 1.8, 1.8, 1.8, {200, 165, 70}, Enum.Material.Metal, 0, false, Enum.PartType.Ball)")
+A("part(ws, 'BellClapper', -26, 2.8, 160, 0.5, 0.8, 0.5, {120, 100, 55}, Enum.Material.Metal, 0, false, Enum.PartType.Ball)")
 A("end")
 
 # Bench near the green + crate cluster by the tavern
-P("BenchSeat", -22, 1.0, 146, 4, 0.5, 1.4, (120, 90, 55), "Wood", 0, True, "Block")
-P("BenchLeg1", -23.2, 0.4, 146, 0.4, 1.2, 1.2, (100, 70, 45), "Wood", 0, True, "Block")
-P("BenchLeg2", -20.8, 0.4, 146, 0.4, 1.2, 1.2, (100, 70, 45), "Wood", 0, True, "Block")
+P("BenchSeat", -22, 1.3, 146, 4, 0.5, 1.4, (120, 90, 55), "Wood", 0, True, "Block")
+P("BenchLeg1", -23.2, 0.7, 146, 0.4, 1.2, 1.2, (100, 70, 45), "Wood", 0, True, "Block")
+P("BenchLeg2", -20.8, 0.7, 146, 0.4, 1.2, 1.2, (100, 70, 45), "Wood", 0, True, "Block")
 for i, (cx, cz) in enumerate([(-50, 144), (-52, 146), (-49, 148)]):
-    P(f"TavernCrate{i}", cx, 1.0, cz, 2, 2, 2, (140, 100, 55), "Wood", 0, True, "Block")
-P("DryingNet", 24, 1.2, 188, 10, 0.3, 3, (90, 130, 150), "SmoothPlastic", 0.35, False, "Block", 0, 0, 0.08)
+    P(f"TavernCrate{i}", cx, 1.25, cz, 2, 2, 2, (140, 100, 55), "Wood", 0, True, "Block")
+P("DryingNet", 24, 1.45, 188, 10, 0.3, 3, (90, 130, 150), "SmoothPlastic", 0.35, False, "Block", 0, 0, 0.08)
 for i in range(2):
-    P(f"NetPost{i}", 19 + i * 10, 1.4, 188, 0.5, 4, 0.5, (100, 70, 45), "Wood", 0, True, "Block")
+    P(f"NetPost{i}", 19 + i * 10, 1.65, 188, 0.5, 4, 0.5, (100, 70, 45), "Wood", 0, True, "Block")
 
 # Extra beach palms (densify the shoreline)
 for i in range(6):
