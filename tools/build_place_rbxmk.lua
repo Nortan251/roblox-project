@@ -2410,13 +2410,13 @@ function AmbienceService:Start()
 			t += 0.25
 
 			-- Buoys bob
-			for _, b in buoys do
+			for _, b in pairs(buoys) do
 				local pos = b:GetPivot().Position
 				b:PivotTo(CFrame.new(pos.X, pos.Y + math.sin(t * 1.7 + pos.X * 0.05) * 0.35, pos.Z))
 			end
 
 			-- Gulls orbit
-			for _, g in gulls do
+			for _, g in pairs(gulls) do
 				local a = t * g.speed + g.offset
 				local pos = g.center + Vector3.new(math.cos(a) * g.radius, g.height + math.sin(a * 0.6) * 2.5, math.sin(a) * g.radius)
 				g.part:PivotTo(CFrame.lookAt(pos, g.center + Vector3.new(0, g.height - 2, 0)))
@@ -2462,7 +2462,7 @@ function AmbienceService:Start()
 			end
 
 			-- Fish swim in circles
-			for _, school in fishSchools do
+			for _, school in pairs(fishSchools) do
 				for fi, fish in ipairs(school.parts) do
 					local a = t * school.speed + school.phase + fi * 0.35
 					local pos = school.center + Vector3.new(
@@ -4109,7 +4109,7 @@ function FishingService:Start()
 			self:EnsureRodTool(player)
 		end)
 	end)
-	for _, player in Players:GetPlayers() do
+	for _, player in ipairs(Players:GetPlayers()) do
 		if player.Character then
 			task.spawn(function()
 				task.wait(0.5)
@@ -6498,7 +6498,7 @@ function CastController:Start()
 end
 
 function CastController:Stop()
-	for _, conn in inputConnections do
+	for _, conn in pairs(inputConnections) do
 		conn:Disconnect()
 	end
 	if gui then

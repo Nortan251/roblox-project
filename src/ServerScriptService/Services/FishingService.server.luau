@@ -634,7 +634,7 @@ function FishingService:Start()
 			self:EnsureRodTool(player)
 		end)
 	end)
-	for _, player in Players:GetPlayers() do
+	for _, player in ipairs(Players:GetPlayers()) do
 		if player.Character then
 			task.spawn(function()
 				task.wait(0.5)

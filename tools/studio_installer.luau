@@ -48,7 +48,7 @@ local Config = {}
 Config.SAVE_VERSION = 1
 Config.SAVE_KEY_PREFIX = "TD_Save_v"
 Config.AUTOSAVE_INTERVAL = 90 -- seconds
-Config.AUTO_TERRAIN = true -- build real islands at server start (runtime terrain)
+Config.AUTO_TERRAIN = false -- baked island is in the place; runtime terrain optional
 
 -- ── Leveling ─────────────────────────────────────────────────────────────
 Config.XP_BASE = 100 -- xp needed from level N to N+1 = XP_BASE * N^XP_EXPONENT
@@ -236,7 +236,7 @@ local Config = {}
 Config.SAVE_VERSION = 1
 Config.SAVE_KEY_PREFIX = "TD_Save_v"
 Config.AUTOSAVE_INTERVAL = 90 -- seconds
-Config.AUTO_TERRAIN = true -- build real islands at server start (runtime terrain)
+Config.AUTO_TERRAIN = false -- baked island is in the place; runtime terrain optional
 
 -- ── Leveling ─────────────────────────────────────────────────────────────
 Config.XP_BASE = 100 -- xp needed from level N to N+1 = XP_BASE * N^XP_EXPONENT
@@ -7557,13 +7557,13 @@ function AmbienceService:Start()
 			t += 0.25
 
 			-- Buoys bob
-			for _, b in buoys do
+			for _, b in pairs(buoys) do
 				local pos = b:GetPivot().Position
 				b:PivotTo(CFrame.new(pos.X, pos.Y + math.sin(t * 1.7 + pos.X * 0.05) * 0.35, pos.Z))
 			end
 
 			-- Gulls orbit
-			for _, g in gulls do
+			for _, g in pairs(gulls) do
 				local a = t * g.speed + g.offset
 				local pos = g.center + Vector3.new(math.cos(a) * g.radius, g.height + math.sin(a * 0.6) * 2.5, math.sin(a) * g.radius)
 				g.part:PivotTo(CFrame.lookAt(pos, g.center + Vector3.new(0, g.height - 2, 0)))
@@ -7609,7 +7609,7 @@ function AmbienceService:Start()
 			end
 
 			-- Fish swim in circles
-			for _, school in fishSchools do
+			for _, school in pairs(fishSchools) do
 				for fi, fish in ipairs(school.parts) do
 					local a = t * school.speed + school.phase + fi * 0.35
 					local pos = school.center + Vector3.new(
@@ -7849,13 +7849,13 @@ function AmbienceService:Start()
 			t += 0.25
 
 			-- Buoys bob
-			for _, b in buoys do
+			for _, b in pairs(buoys) do
 				local pos = b:GetPivot().Position
 				b:PivotTo(CFrame.new(pos.X, pos.Y + math.sin(t * 1.7 + pos.X * 0.05) * 0.35, pos.Z))
 			end
 
 			-- Gulls orbit
-			for _, g in gulls do
+			for _, g in pairs(gulls) do
 				local a = t * g.speed + g.offset
 				local pos = g.center + Vector3.new(math.cos(a) * g.radius, g.height + math.sin(a * 0.6) * 2.5, math.sin(a) * g.radius)
 				g.part:PivotTo(CFrame.lookAt(pos, g.center + Vector3.new(0, g.height - 2, 0)))
@@ -7901,7 +7901,7 @@ function AmbienceService:Start()
 			end
 
 			-- Fish swim in circles
-			for _, school in fishSchools do
+			for _, school in pairs(fishSchools) do
 				for fi, fish in ipairs(school.parts) do
 					local a = t * school.speed + school.phase + fi * 0.35
 					local pos = school.center + Vector3.new(
@@ -8572,7 +8572,7 @@ function FishingService:Start()
 			self:EnsureRodTool(player)
 		end)
 	end)
-	for _, player in Players:GetPlayers() do
+	for _, player in ipairs(Players:GetPlayers()) do
 		if player.Character then
 			task.spawn(function()
 				task.wait(0.5)
@@ -9240,7 +9240,7 @@ function FishingService:Start()
 			self:EnsureRodTool(player)
 		end)
 	end)
-	for _, player in Players:GetPlayers() do
+	for _, player in ipairs(Players:GetPlayers()) do
 		if player.Character then
 			task.spawn(function()
 				task.wait(0.5)
@@ -10084,6 +10084,7 @@ if inst and inst.Source ~= [==[--!strict
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local Util = require(ReplicatedStorage.Shared.Util)
 
@@ -10202,6 +10203,40 @@ game:BindToClose(function()
 end)
 
 print("[Tidebound] Server booted. Services: " .. table.concat(ORDER, ", "))
+
+-- ── BOOT BEACON (diagnostic: proves server code runs in the live game) ──
+-- 1) Analytics counter -> visible in Creator Dashboard > Analytics
+local AnalyticsService = game:GetService("AnalyticsService")
+pcall(function()
+	AnalyticsService:ReportCounter("TideboundServerBoot", 1)
+end)
+-- 2) Floating sign above spawn -> visible to every player in-world
+task.delay(4, function()
+	local beacon = Instance.new("Part")
+	beacon.Name = "BootBeacon"
+	beacon.Anchored = true
+	beacon.CanCollide = false
+	beacon.CanQuery = false
+	beacon.CanTouch = false
+	beacon.Size = Vector3.new(1, 1, 1)
+	beacon.Transparency = 1
+	beacon.CFrame = CFrame.new(0, 14, 66)
+	beacon.Parent = Workspace
+	local bg = Instance.new("BillboardGui")
+	bg.Name = "BeaconGUI"
+	bg.Size = UDim2.new(0, 600, 0, 120)
+	bg.AlwaysOnTop = true
+	bg.Parent = beacon
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(1, 0, 1, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = "TIDEBOUND ONLINE — v14\n(server scripts running)"
+	lbl.TextColor3 = Color3.fromRGB(90, 220, 170)
+	lbl.TextSize = 32
+	lbl.Font = Enum.Font.GothamBold
+	lbl.TextStrokeTransparency = 0
+	lbl.Parent = bg
+end)
 ]==] then
 	inst.Source = [==[--!strict
 --[[
@@ -10212,6 +10247,7 @@ print("[Tidebound] Server booted. Services: " .. table.concat(ORDER, ", "))
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local Util = require(ReplicatedStorage.Shared.Util)
 
@@ -10330,6 +10366,40 @@ game:BindToClose(function()
 end)
 
 print("[Tidebound] Server booted. Services: " .. table.concat(ORDER, ", "))
+
+-- ── BOOT BEACON (diagnostic: proves server code runs in the live game) ──
+-- 1) Analytics counter -> visible in Creator Dashboard > Analytics
+local AnalyticsService = game:GetService("AnalyticsService")
+pcall(function()
+	AnalyticsService:ReportCounter("TideboundServerBoot", 1)
+end)
+-- 2) Floating sign above spawn -> visible to every player in-world
+task.delay(4, function()
+	local beacon = Instance.new("Part")
+	beacon.Name = "BootBeacon"
+	beacon.Anchored = true
+	beacon.CanCollide = false
+	beacon.CanQuery = false
+	beacon.CanTouch = false
+	beacon.Size = Vector3.new(1, 1, 1)
+	beacon.Transparency = 1
+	beacon.CFrame = CFrame.new(0, 14, 66)
+	beacon.Parent = Workspace
+	local bg = Instance.new("BillboardGui")
+	bg.Name = "BeaconGUI"
+	bg.Size = UDim2.new(0, 600, 0, 120)
+	bg.AlwaysOnTop = true
+	bg.Parent = beacon
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(1, 0, 1, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = "TIDEBOUND ONLINE — v14\n(server scripts running)"
+	lbl.TextColor3 = Color3.fromRGB(90, 220, 170)
+	lbl.TextSize = 32
+	lbl.Font = Enum.Font.GothamBold
+	lbl.TextStrokeTransparency = 0
+	lbl.Parent = bg
+end)
 ]==]
 	print('[Installer] Wrote ServerScriptService/Bootstrap')
 end
@@ -11091,7 +11161,7 @@ function CastController:Start()
 end
 
 function CastController:Stop()
-	for _, conn in inputConnections do
+	for _, conn in pairs(inputConnections) do
 		conn:Disconnect()
 	end
 	if gui then
@@ -11343,7 +11413,7 @@ function CastController:Start()
 end
 
 function CastController:Stop()
-	for _, conn in inputConnections do
+	for _, conn in pairs(inputConnections) do
 		conn:Disconnect()
 	end
 	if gui then
@@ -11449,6 +11519,10 @@ function UIController:BuildUI()
 	-- Storm countdown chip
 	stormChip = UiKit.Label(gui, "", UDim2.fromScale(0.22, 0.04), UDim2.fromScale(0.5, 0.06), Theme.Storm, Theme.FontBold, 14)
 	stormChip.AnchorPoint = Vector2.new(0.5, 0)
+
+	-- Version label (diagnostic: proves client code runs)
+	local versionLabel = UiKit.Label(gui, "v14", UDim2.fromScale(0.06, 0.03), UDim2.fromScale(0.02, 0.96), Theme.TextDim, nil, 12)
+	versionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 	-- First-catch hint (dismisses on the player's first catch)
 	hintLabel = UiKit.Label(gui, "🎣 Hold Q (or tap CAST) to charge — release to cast!", UDim2.fromScale(0.5, 0.05), UDim2.fromScale(0.5, 0.9), Theme.Gold, Theme.FontBold, 15)
@@ -11880,6 +11954,10 @@ function UIController:BuildUI()
 	-- Storm countdown chip
 	stormChip = UiKit.Label(gui, "", UDim2.fromScale(0.22, 0.04), UDim2.fromScale(0.5, 0.06), Theme.Storm, Theme.FontBold, 14)
 	stormChip.AnchorPoint = Vector2.new(0.5, 0)
+
+	-- Version label (diagnostic: proves client code runs)
+	local versionLabel = UiKit.Label(gui, "v14", UDim2.fromScale(0.06, 0.03), UDim2.fromScale(0.02, 0.96), Theme.TextDim, nil, 12)
+	versionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 	-- First-catch hint (dismisses on the player's first catch)
 	hintLabel = UiKit.Label(gui, "🎣 Hold Q (or tap CAST) to charge — release to cast!", UDim2.fromScale(0.5, 0.05), UDim2.fromScale(0.5, 0.9), Theme.Gold, Theme.FontBold, 15)

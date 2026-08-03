@@ -6,6 +6,20 @@ Usage: python3 tools/build_smoke_harness.py && tools/luau-bin/luau /tmp/harness.
 import pathlib, re
 
 SRC = pathlib.Path("/home/user/tidebound/src")
+
+import re
+def scan_bare_in():
+    """Fail the build if any src file has a bare generic-for over a table (Roblox runtime crash)."""
+    bad = []
+    for p in SRC.rglob("*.luau"):
+        for i, line in enumerate(p.read_text().split("\n"), 1):
+            s = line.strip()
+            if re.match(r"for .* in [A-Za-z_]", s) and "pairs(" not in s and "ipairs(" not in s and "string.gmatch" not in s and "gmatch" not in s:
+                bad.append(f"{p}:{i}: {s}")
+    if bad:
+        raise SystemExit("BARE-IN LOOPS (Roblox crash):\n" + "\n".join(bad[:20]))
+scan_bare_in()
+
 SIM = pathlib.Path("/home/user/tidebound/tools/sim_tests.luau")
 
 # Logical name -> relative file path (unique keys; Bootstrap disambiguated)

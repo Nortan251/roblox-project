@@ -240,7 +240,7 @@ function CastController:Start()
 end
 
 function CastController:Stop()
-	for _, conn in inputConnections do
+	for _, conn in pairs(inputConnections) do
 		conn:Disconnect()
 	end
 	if gui then
