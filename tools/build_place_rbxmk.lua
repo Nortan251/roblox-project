@@ -43,6 +43,37 @@ local function fx(parent, color, rate, life0, life1, speed0, speed1, size0, size
     pe.Parent = parent
     return pe
 end
+local function blob(parent, name, x, y, z, sx, sy, sz, color, mat, transp, collide, rx, ry, rz)
+    local p = Instance.new('Part')
+    p.Name = name
+    p.Anchored = true
+    p.CanCollide = collide
+    p.CanQuery = true
+    p.CanTouch = false
+    p.Size = Vector3.new(sx, sy, sz)
+    p.CFrame = CFrame.new(x, y, z) * CFrame.Angles(rx or 0, ry or 0, rz or 0)
+    p.Color = Color3.fromRGB(color[1], color[2], color[3])
+    p.Material = mat
+    p.Transparency = transp
+    local m = Instance.new('SpecialMesh')
+    m.MeshType = Enum.MeshType.Sphere
+    m.Parent = p
+    p.Parent = parent
+    return p
+end
+local function flatRoof(parent, name, cx, cz, yBase, w, d, thick, color, trimColor)
+    part(parent, name .. '_Slab', cx, yBase, cz, w, thick, d, color, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+    part(parent, name .. '_Trim', cx, yBase - thick - 0.3, cz, w + 1.2, 0.3, d + 1.2, trimColor, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+end
+local function window(parent, name, x, y, z, w, h, warm)
+    local win = part(parent, name, x, y, z, w, h, 0.3, warm, Enum.Material.Neon, 0, false, Enum.PartType.Block)
+    local l = Instance.new('PointLight')
+    l.Color = Color3.fromRGB(255, 210, 130)
+    l.Brightness = 0.7
+    l.Range = 14
+    l.Parent = win
+    return win
+end
 local function billboard(parent, text, color, offsetY)
     local bg = Instance.new('BillboardGui')
     bg.Name = 'Tag'
@@ -171,135 +202,159 @@ part(ws, 'Path_9', -0.24, 0.45, 94.4, 2.88, 0.1, 2.63, {168, 160, 140}, Enum.Mat
 part(ws, 'Path_10', 3.09, 0.45, 96.0, 3.03, 0.1, 2.86, {168, 160, 140}, Enum.Material.Slate, 0, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'Path_11', -0.24, 0.45, 97.6, 3.33, 0.1, 3.39, {168, 160, 140}, Enum.Material.Slate, 0, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'PalmTrunk_P0', 30.58, 3.4, 143.63, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.05, 0, 0.0)
-part(ws, 'PalmLeaf_P0_0', 32.04, 5.5, 147.09, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P0_1', 29.96, 5.5, 146.03, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P0_2', 26.06, 5.5, 143.5, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P0_3', 28.41, 5.5, 143.82, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P0_4', 30.15, 5.5, 142.46, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P0', 29.1, 4.7, 147.61, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P0', 28.52, 4.7, 144.4, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P1', 27.97, 3.4, 166.44, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.07, 0, 0.05)
-part(ws, 'PalmLeaf_P1_0', 27.63, 5.5, 168.59, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P1_1', 24.51, 5.5, 169.71, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P1_2', 25.72, 5.5, 167.7, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P1_3', 23.76, 5.5, 167.34, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P1_4', 29.77, 5.5, 165.69, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P1', 25.6, 4.7, 163.78, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P1', 25.13, 4.7, 165.78, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P2', -15.87, 3.4, 159.5, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.08, 0, -0.08)
-part(ws, 'PalmLeaf_P2_0', -12.25, 5.5, 162.4, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P2_1', -17.04, 5.5, 164.04, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P2_2', -18.96, 5.5, 162.04, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P2_3', -15.91, 5.5, 160.99, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P2_4', -13.49, 5.5, 158.15, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P2', -17.81, 4.7, 158.98, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P2', -14.44, 4.7, 161.12, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P3', 71.32, 3.4, 137.17, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.04, 0, 0.01)
-part(ws, 'PalmLeaf_P3_0', 75.34, 5.5, 141.62, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P3_1', 70.82, 5.5, 139.34, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P3_2', 68.89, 5.5, 143.48, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P3_3', 69.61, 5.5, 140.3, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P3_4', 69.67, 5.5, 136.37, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P3', 71.44, 4.7, 139.78, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P3', 68.57, 4.7, 136.14, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P4', -17.08, 3.4, 170.1, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.02, 0, 0.04)
-part(ws, 'PalmLeaf_P4_0', -14.63, 5.5, 171.08, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P4_1', -14.62, 5.5, 172.32, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P4_2', -17.54, 5.5, 170.26, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P4_3', -13.78, 5.5, 169.9, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P4_4', -11.72, 5.5, 166.48, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P4', -14.67, 4.7, 170.92, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P4', -14.97, 4.7, 171.31, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P5', 42.24, 3.4, 103.73, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.07, 0, -0.07)
-part(ws, 'PalmLeaf_P5_0', 45.72, 5.5, 107.59, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P5_1', 43.36, 5.5, 109.56, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P5_2', 38.87, 5.5, 108.34, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P5_3', 43.03, 5.5, 101.79, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P5_4', 43.87, 5.5, 104.81, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P5', 42.55, 4.7, 108.6, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P5', 41.21, 4.7, 107.33, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P6', 13.48, 3.4, 131.5, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.03, 0, -0.02)
-part(ws, 'PalmLeaf_P6_0', 15.18, 5.5, 134.01, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P6_1', 16.47, 5.5, 136.0, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P6_2', 11.69, 5.5, 134.5, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P6_3', 11.8, 5.5, 130.2, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P6_4', 16.61, 5.5, 133.35, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P6', 15.49, 4.7, 136.42, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P6', 12.79, 4.7, 136.45, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P7', 62.31, 3.4, 153.35, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.06, 0, 0.03)
-part(ws, 'PalmLeaf_P7_0', 68.23, 5.5, 150.77, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P7_1', 61.6, 5.5, 154.5, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P7_2', 61.18, 5.5, 153.4, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P7_3', 58.43, 5.5, 151.4, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P7_4', 64.03, 5.5, 149.6, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P7', 60.75, 4.7, 150.72, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P7', 61.87, 4.7, 151.69, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P8', -12.13, 3.4, 119.12, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.04)
-part(ws, 'PalmLeaf_P8_0', -10.92, 5.5, 119.21, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P8_1', -13.28, 5.5, 123.61, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P8_2', -18.31, 5.5, 124.64, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P8_3', -18.2, 5.5, 118.44, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P8_4', -15.45, 5.5, 116.01, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P8', -15.78, 4.7, 123.79, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P8', -12.79, 4.7, 120.28, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P9', -26.32, 3.4, 105.45, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.01)
-part(ws, 'PalmLeaf_P9_0', -18.24, 5.5, 106.82, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P9_1', -20.98, 5.5, 110.83, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P9_2', -24.64, 5.5, 109.92, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P9_3', -23.0, 5.5, 105.06, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P9_4', -24.33, 5.5, 105.03, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P9', -20.98, 4.7, 110.29, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P9', -21.94, 4.7, 109.58, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P10', 42.47, 3.4, 176.58, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.02, 0, 0.04)
-part(ws, 'PalmLeaf_P10_0', 45.36, 5.5, 171.04, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P10_1', 45.11, 5.5, 175.11, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P10_2', 43.78, 5.5, 177.21, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P10_3', 38.79, 5.5, 173.96, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P10_4', 42.89, 5.5, 173.85, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P10', 42.99, 4.7, 173.25, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P10', 43.91, 4.7, 174.93, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_P11', -16.03, 3.4, 147.27, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.02, 0, 0.02)
-part(ws, 'PalmLeaf_P11_0', -10.21, 5.5, 146.69, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_P11_1', -12.48, 5.5, 151.13, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_P11_2', -16.55, 5.5, 149.47, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_P11_3', -16.3, 5.5, 146.29, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_P11_4', -15.15, 5.5, 147.31, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_P11', -13.17, 4.7, 152.43, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_P11', -12.24, 4.7, 148.6, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'BeachRock_0', -7.59, 0.85, 108.25, 2.97, 2.7, 2.92, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.03, 0.14, 0.02)
-part(ws, 'BeachRock_1', 43.8, 1.93, 186.84, 2.93, 3.08, 4.64, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.15, 0.19, -0.01)
-part(ws, 'BeachRock_2', 88.03, 2.7, 160.36, 5.25, 3.77, 3.4, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, 0.13, -0.05)
-part(ws, 'BeachRock_3', -13.55, 2.2, 125.94, 3.92, 2.69, 4.76, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.04, -0.14, 0.12)
-part(ws, 'BeachRock_4', 81.89, 2.64, 171.24, 4.46, 3.49, 4.24, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.07, -0.14, 0.07)
-part(ws, 'BeachRock_5', 91.67, 1.28, 93.32, 4.97, 2.96, 4.0, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.14, 0.01, 0.04)
-part(ws, 'BeachRock_6', -21.29, 0.99, 142.23, 4.56, 2.33, 2.92, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.09, -0.14, -0.06)
-part(ws, 'BeachRock_7', 30.78, 2.94, 126.93, 2.66, 3.37, 2.03, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.02, 0.12, 0.12)
-part(ws, 'BeachRock_8', 85.93, 1.18, 191.24, 3.81, 1.95, 3.89, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.0, 0.15, 0.04)
-part(ws, 'BeachRock_9', -41.23, 1.61, 130.65, 2.76, 1.89, 4.14, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, 0.15, 0.07)
-part(ws, 'BeachRock_10', 9.63, 2.22, 153.78, 3.22, 3.77, 2.42, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.06, -0.02, 0.03)
-part(ws, 'BeachRock_11', -30.36, 0.99, 167.65, 3.73, 2.28, 4.64, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.0, -0.07, 0.12)
-part(ws, 'BeachRock_12', 54.86, 1.69, 175.4, 2.62, 3.52, 2.77, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.09, -0.04, 0.09)
-part(ws, 'BeachRock_13', 10.95, 2.43, 106.41, 4.3, 1.82, 2.94, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.1, -0.02, -0.11)
+blob(ws, 'PalmCanopy_P0_0', 32.78, 5.4, 143.63, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P0_1', 31.68, 5.88, 145.54, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P0_2', 29.47, 5.66, 145.53, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P0_3', 28.38, 5.06, 143.61, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P0_4', 29.5, 4.96, 141.71, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P0_5', 31.71, 5.51, 141.74, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P0', 30.58, 5.8, 143.63, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P0', 30.18, 4.9, 143.93, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P0', 30.98, 4.9, 143.33, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P1', 22.49, 3.4, 169.52, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.04, 0, -0.07)
+blob(ws, 'PalmCanopy_P1_0', 24.69, 5.4, 169.52, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P1_1', 23.58, 5.88, 171.43, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P1_2', 21.38, 5.66, 171.42, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P1_3', 20.29, 5.06, 169.5, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P1_4', 21.41, 4.96, 167.6, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P1_5', 23.61, 5.51, 167.63, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P1', 22.49, 5.8, 169.52, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P1', 22.09, 4.9, 169.82, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P1', 22.89, 4.9, 169.22, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P2', 40.31, 3.4, 147.92, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.0, 0, 0.07)
+blob(ws, 'PalmCanopy_P2_0', 42.51, 5.4, 147.92, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P2_1', 41.41, 5.88, 149.83, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P2_2', 39.2, 5.66, 149.82, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P2_3', 38.11, 5.06, 147.9, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P2_4', 39.24, 4.96, 146.0, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P2_5', 41.44, 5.51, 146.03, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P2', 40.31, 5.8, 147.92, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P2', 39.91, 4.9, 148.22, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P2', 40.71, 4.9, 147.62, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P3', 1.08, 3.4, 140.8, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.05, 0, 0.01)
+blob(ws, 'PalmCanopy_P3_0', 3.28, 5.4, 140.8, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P3_1', 2.17, 5.88, 142.71, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P3_2', -0.03, 5.66, 142.7, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P3_3', -1.12, 5.06, 140.78, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P3_4', 0.0, 4.96, 138.89, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P3_5', 2.21, 5.51, 138.91, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P3', 1.08, 5.8, 140.8, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P3', 0.68, 4.9, 141.1, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P3', 1.48, 4.9, 140.5, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P4', 64.63, 3.4, 169.01, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.06, 0, 0.03)
+blob(ws, 'PalmCanopy_P4_0', 66.83, 5.4, 169.01, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P4_1', 65.72, 5.88, 170.92, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P4_2', 63.52, 5.66, 170.91, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P4_3', 62.43, 5.06, 168.99, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P4_4', 63.55, 4.96, 167.1, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P4_5', 65.75, 5.51, 167.12, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P4', 64.63, 5.8, 169.01, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P4', 64.23, 4.9, 169.31, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P4', 65.03, 4.9, 168.71, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P5', 53.23, 3.4, 144.01, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.07, 0, 0.05)
+blob(ws, 'PalmCanopy_P5_0', 55.43, 5.4, 144.01, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P5_1', 54.32, 5.88, 145.91, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P5_2', 52.12, 5.66, 145.9, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P5_3', 51.03, 5.06, 143.99, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P5_4', 52.15, 4.96, 142.09, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P5_5', 54.35, 5.51, 142.12, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P5', 53.23, 5.8, 144.01, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P5', 52.83, 4.9, 144.31, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P5', 53.63, 4.9, 143.71, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P6', 21.51, 3.4, 105.13, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.06, 0, 0.04)
+blob(ws, 'PalmCanopy_P6_0', 23.71, 5.4, 105.13, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P6_1', 22.61, 5.88, 107.04, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P6_2', 20.4, 5.66, 107.03, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P6_3', 19.31, 5.06, 105.12, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P6_4', 20.43, 4.96, 103.22, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P6_5', 22.64, 5.51, 103.24, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P6', 21.51, 5.8, 105.13, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P6', 21.11, 4.9, 105.43, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P6', 21.91, 4.9, 104.83, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P7', 13.22, 3.4, 132.95, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.01, 0, 0.07)
+blob(ws, 'PalmCanopy_P7_0', 15.42, 5.4, 132.95, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P7_1', 14.31, 5.88, 134.86, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P7_2', 12.1, 5.66, 134.85, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P7_3', 11.02, 5.06, 132.93, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P7_4', 12.14, 4.96, 131.04, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P7_5', 14.34, 5.51, 131.06, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P7', 13.22, 5.8, 132.95, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P7', 12.82, 4.9, 133.25, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P7', 13.62, 4.9, 132.65, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P8', -18.21, 3.4, 164.23, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.04, 0, 0.07)
+blob(ws, 'PalmCanopy_P8_0', -16.01, 5.4, 164.23, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P8_1', -17.11, 5.88, 166.14, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P8_2', -19.32, 5.66, 166.13, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P8_3', -20.41, 5.06, 164.21, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P8_4', -19.28, 4.96, 162.31, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P8_5', -17.08, 5.51, 162.34, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P8', -18.21, 5.8, 164.23, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P8', -18.61, 4.9, 164.53, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P8', -17.81, 4.9, 163.93, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P9', 39.78, 3.4, 149.71, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.01, 0, 0.04)
+blob(ws, 'PalmCanopy_P9_0', 41.98, 5.4, 149.71, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P9_1', 40.87, 5.88, 151.62, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P9_2', 38.67, 5.66, 151.61, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P9_3', 37.58, 5.06, 149.69, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P9_4', 38.7, 4.96, 147.8, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P9_5', 40.9, 5.51, 147.82, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P9', 39.78, 5.8, 149.71, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P9', 39.38, 4.9, 150.01, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P9', 40.18, 4.9, 149.41, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P10', 71.32, 3.4, 137.17, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.04, 0, 0.01)
+blob(ws, 'PalmCanopy_P10_0', 73.52, 5.4, 137.17, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P10_1', 72.41, 5.88, 139.08, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P10_2', 70.21, 5.66, 139.07, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P10_3', 69.12, 5.06, 137.15, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P10_4', 70.24, 4.96, 135.25, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P10_5', 72.44, 5.51, 135.28, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P10', 71.32, 5.8, 137.17, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P10', 70.92, 4.9, 137.47, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P10', 71.72, 4.9, 136.87, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_P11', 70.86, 3.4, 167.59, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.07)
+blob(ws, 'PalmCanopy_P11_0', 73.06, 5.4, 167.59, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_P11_1', 71.95, 5.88, 169.49, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_P11_2', 69.75, 5.66, 169.49, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_P11_3', 68.66, 5.06, 167.57, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_P11_4', 69.78, 4.96, 165.67, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_P11_5', 71.98, 5.51, 165.7, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_P11', 70.86, 5.8, 167.59, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_P11', 70.46, 4.9, 167.89, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_P11', 71.26, 4.9, 167.29, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+blob(ws, 'BeachRock_0', 60.63, 1.47, 179.73, 3.44, 2.89, 3.82, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.2, 0.23, -0.22)
+blob(ws, 'BeachRock_1', 4.33, 2.49, 125.94, 2.09, 2.28, 3.15, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.19, 0.27, 0.04)
+blob(ws, 'BeachRock_2', 65.36, 1.94, 105.36, 3.52, 1.92, 4.09, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.05, -0.18, 0.21)
+blob(ws, 'BeachRock_3', -33.28, 2.65, 146.9, 3.58, 2.78, 2.66, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.19, 0.02, 0.14)
+blob(ws, 'BeachRock_4', 26.85, 1.15, 184.06, 4.96, 2.03, 3.49, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.1, -0.09, -0.12)
+blob(ws, 'BeachRock_5', 23.17, 1.71, 169.65, 3.64, 1.9, 3.69, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.15, 0.19, 0.17)
+blob(ws, 'BeachRock_6', -8.53, 2.73, 186.14, 4.26, 2.07, 4.74, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.23, -0.09, -0.17)
+blob(ws, 'BeachRock_7', 33.33, 1.98, 146.95, 2.38, 2.7, 3.95, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.1, -0.14, 0.03)
+blob(ws, 'BeachRock_8', -25.92, 2.9, 116.59, 2.6, 2.63, 4.66, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.07, 0.0, -0.11)
+blob(ws, 'BeachRock_9', 70.45, 1.49, 121.63, 2.91, 1.36, 3.44, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.04, -0.29, -0.2)
+blob(ws, 'BeachRock_10', -35.89, 2.31, 104.49, 4.02, 3.15, 3.23, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.08, 0.07, 0.21)
+blob(ws, 'BeachRock_11', 2.53, 1.82, 113.86, 5.43, 3.03, 4.4, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.21, -0.07, 0.22)
+blob(ws, 'BeachRock_12', 8.15, 1.76, 165.27, 2.08, 2.66, 3.01, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.19, 0.16, -0.09)
+blob(ws, 'BeachRock_13', 77.86, 1.55, 143.6, 3.96, 2.71, 2.39, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.19, -0.09, 0.07)
 do
 local f = part(ws, 'Fire', 42, 1.5, 138, 1.6, 2.4, 1.6, {255, 140, 40}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
 light(f, {255, 150, 60}, 1.2, 22)
 fx(f, {190, 190, 195}, 8, 0.8, 1.6, 1, 2.5, 0.4, 0.9, 0.3, 1)
 end
-part(ws, 'CampLog_0', 42.25, 1.0, 137.47, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, 0.47)
-part(ws, 'CampLog_1', 42.12, 1.0, 137.25, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, -0.21)
-part(ws, 'CampLog_2', 41.92, 1.0, 137.8, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, -0.48)
-part(ws, 'CampLog_3', 42.43, 1.0, 138.35, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, -0.16)
+part(ws, 'CampLog_0', 42.31, 1.0, 137.06, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, 0.08)
+part(ws, 'CampLog_1', 41.71, 1.0, 137.77, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, -0.26)
+part(ws, 'CampLog_2', 41.84, 1.0, 137.44, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, -0.37)
+part(ws, 'CampLog_3', 42.09, 1.0, 138.32, 2.2, 0.5, 0.5, {100, 66, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Cylinder, 0, 0, 0.43)
 part(ws, 'CampRing_0', 44.6, 0.85, 138.0, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'CampRing_1', 43.29, 0.85, 140.26, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'CampRing_2', 40.69, 0.85, 140.24, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'CampRing_3', 39.4, 0.85, 137.98, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'CampRing_4', 40.73, 0.85, 135.73, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'CampRing_5', 43.33, 0.85, 135.77, 1.1, 0.9, 1.1, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'IsletRock_0', 229.81, 1.22, 40.67, 6.77, 2.91, 6.54, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.01, -0.12, -0.04)
-part(ws, 'IsletRock_1', 228.24, 0.8, 39.01, 6.77, 2.72, 4.03, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.05, 0.06, -0.03)
-part(ws, 'IsletRock_2', 226.15, 1.33, 38.88, 5.43, 2.89, 5.02, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.11, 0.14, -0.07)
-part(ws, 'IsletRock_3', 228.52, 0.42, 38.32, 4.63, 2.46, 4.83, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.06, 0.02, -0.15)
-part(ws, 'IsletRock_4', 228.42, 0.51, 38.68, 4.99, 2.22, 5.39, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.06, 0.03, 0.06)
+blob(ws, 'IsletRock_0', 226.09, 1.22, 39.11, 5.19, 1.85, 4.44, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.01, -0.14, -0.09)
+blob(ws, 'IsletRock_1', 228.6, 1.53, 41.85, 5.78, 2.33, 5.66, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.01, -0.14, 0.07)
+blob(ws, 'IsletRock_2', 229.91, 1.31, 39.88, 4.95, 2.18, 4.03, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.24, 0.11, 0.18)
+blob(ws, 'IsletRock_3', 229.8, 1.51, 38.93, 6.72, 1.97, 6.93, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.16, -0.09, -0.15)
+blob(ws, 'IsletRock_4', 229.15, 0.83, 40.32, 5.91, 2.09, 5.42, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.16, 0.08, -0.17)
 do
 local t1 = part(ws, 'LhTower1', 232, 2.0, 42, 9, 8, 9, {240, 238, 230}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
 part(ws, 'LhTower2', 232, 5.5, 42, 7, 8, 7, {240, 238, 230}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder)
@@ -308,50 +363,50 @@ local b = part(ws, 'LhLight', 232, 10.5, 42, 2.2, 2.2, 2.2, {255, 240, 160}, Enu
 light(b, {255, 230, 140}, 1.5, 40)
 end
 part(ws, 'LhRoof', 232, 11.2, 42, 6, 1.6, 6, {90, 90, 95}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'Coral_0', 28.98, -2.8, 59.14, 0.8, 1.4, 0.8, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_0', 28.98, -2.0, 59.14, 1.3, 1.3, 1.3, {255, 120, 150}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_1', -75.47, -2.8, 85.73, 0.8, 1.4, 0.8, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_1', -75.47, -2.0, 85.73, 1.3, 1.3, 1.3, {255, 120, 150}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_2', -50.36, -2.8, 71.4, 0.8, 1.4, 0.8, {255, 160, 90}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_2', -50.36, -2.0, 71.4, 1.3, 1.3, 1.3, {255, 160, 90}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_3', 78.14, -2.8, 83.73, 0.8, 1.4, 0.8, {200, 110, 220}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_3', 78.14, -2.0, 83.73, 1.3, 1.3, 1.3, {200, 110, 220}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_4', -25.03, -2.8, 42.25, 0.8, 1.4, 0.8, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_4', -25.03, -2.0, 42.25, 1.3, 1.3, 1.3, {255, 200, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_5', -39.14, -2.8, 81.83, 0.8, 1.4, 0.8, {200, 110, 220}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_5', -39.14, -2.0, 81.83, 1.3, 1.3, 1.3, {200, 110, 220}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_6', -74.13, -2.8, 54.3, 0.8, 1.4, 0.8, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_6', -74.13, -2.0, 54.3, 1.3, 1.3, 1.3, {255, 120, 150}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_7', -3.09, -2.8, 45.63, 0.8, 1.4, 0.8, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_7', -3.09, -2.0, 45.63, 1.3, 1.3, 1.3, {255, 200, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_8', -48.2, -2.8, 39.15, 0.8, 1.4, 0.8, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_8', -48.2, -2.0, 39.15, 1.3, 1.3, 1.3, {255, 200, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Coral_9', -31.35, -2.8, 60.72, 0.8, 1.4, 0.8, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'CoralHead_9', -31.35, -2.0, 60.72, 1.3, 1.3, 1.3, {255, 200, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Kelp_0', 65.33, -2.0, 73.07, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.06, 0, 0.0)
-part(ws, 'Kelp_1', 5.81, -2.0, 83.64, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.19, 0, 0.05)
-part(ws, 'Kelp_2', 63.55, -2.0, 92.96, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.04, 0, -0.0)
-part(ws, 'Kelp_3', 28.9, -2.0, 43.81, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.02)
-part(ws, 'Kelp_4', 53.63, -2.0, 75.75, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.19, 0, 0.18)
-part(ws, 'Kelp_5', 5.04, -2.0, 84.46, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.05, 0, 0.17)
-part(ws, 'Kelp_6', 86.32, -2.0, 17.31, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.1, 0, -0.03)
-part(ws, 'Kelp_7', 63.99, -2.0, 25.12, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.12, 0, 0.14)
-part(ws, 'Kelp_8', 49.64, -2.0, 72.31, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.15, 0, 0.07)
-part(ws, 'Kelp_9', 64.23, -2.0, 44.1, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.06, 0, 0.01)
-part(ws, 'Kelp_10', 40.71, -2.0, 30.12, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.04, 0, 0.08)
-part(ws, 'Kelp_11', -62.44, -2.0, 26.52, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.12, 0, 0.12)
-part(ws, 'Kelp_12', 13.13, -2.0, 79.15, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.15, 0, -0.09)
-part(ws, 'Kelp_13', -36.12, -2.0, 80.57, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.14, 0, 0.19)
-part(ws, 'Kelp_14', 34.73, -2.0, 25.24, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.13, 0, 0.08)
-part(ws, 'Kelp_15', 45.24, -2.0, 69.39, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.03, 0, 0.05)
-part(ws, 'SeaRock_0', 80.84, -3.0, 92.1, 2.6, 2.27, 3.78, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, 0.16, -0.11)
-part(ws, 'SeaRock_1', 2.44, -3.0, 51.29, 2.12, 2.03, 3.69, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.05, -0.19, 0.0)
-part(ws, 'SeaRock_2', 72.78, -3.0, 18.3, 3.33, 1.8, 3.68, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, -0.05, 0.01)
-part(ws, 'SeaRock_3', 73.31, -3.0, 72.25, 2.92, 2.04, 2.42, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.13, 0.02, -0.01)
-part(ws, 'SeaRock_4', 76.46, -3.0, 28.69, 2.39, 2.63, 2.71, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.12, -0.12, -0.02)
-part(ws, 'SeaRock_5', 81.48, -3.0, 92.63, 2.86, 2.32, 2.29, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.07, 0.1, -0.03)
-part(ws, 'SeaRock_6', -6.26, -3.0, 47.69, 2.55, 2.03, 3.97, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, -0.06, -0.04)
-part(ws, 'SeaRock_7', 28.48, -3.0, 12.42, 3.4, 2.34, 3.51, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.01, 0.02, 0.09)
+blob(ws, 'Coral_0', 63.01, -2.8, 86.53, 0.9, 1.5, 0.9, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_0', 63.01, -1.9, 86.53, 1.4, 1.4, 1.4, {255, 200, 120}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_1', 47.26, -2.8, 64.74, 0.9, 1.5, 0.9, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_1', 47.26, -1.9, 64.74, 1.4, 1.4, 1.4, {255, 120, 150}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_2', -32.15, -2.8, 58.27, 0.9, 1.5, 0.9, {200, 110, 220}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_2', -32.15, -1.9, 58.27, 1.4, 1.4, 1.4, {200, 110, 220}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_3', -57.93, -2.8, 71.77, 0.9, 1.5, 0.9, {255, 120, 150}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_3', -57.93, -1.9, 71.77, 1.4, 1.4, 1.4, {255, 120, 150}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_4', 5.35, -2.8, 79.49, 0.9, 1.5, 0.9, {200, 110, 220}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_4', 5.35, -1.9, 79.49, 1.4, 1.4, 1.4, {200, 110, 220}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_5', 11.62, -2.8, 86.89, 0.9, 1.5, 0.9, {255, 200, 120}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_5', 11.62, -1.9, 86.89, 1.4, 1.4, 1.4, {255, 200, 120}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_6', 6.24, -2.8, 87.98, 0.9, 1.5, 0.9, {255, 160, 90}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_6', 6.24, -1.9, 87.98, 1.4, 1.4, 1.4, {255, 160, 90}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_7', 74.43, -2.8, 27.34, 0.9, 1.5, 0.9, {255, 160, 90}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_7', 74.43, -1.9, 27.34, 1.4, 1.4, 1.4, {255, 160, 90}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_8', 37.21, -2.8, 43.35, 0.9, 1.5, 0.9, {200, 110, 220}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_8', 37.21, -1.9, 43.35, 1.4, 1.4, 1.4, {200, 110, 220}, Enum.Material.Neon, 0, false)
+blob(ws, 'Coral_9', -30.33, -2.8, 71.61, 0.9, 1.5, 0.9, {255, 160, 90}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'CoralHead_9', -30.33, -1.9, 71.61, 1.4, 1.4, 1.4, {255, 160, 90}, Enum.Material.Neon, 0, false)
+part(ws, 'Kelp_0', -60.8, -2.0, 38.43, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.02, 0, -0.06)
+part(ws, 'Kelp_1', 85.1, -2.0, 30.1, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.1, 0, -0.2)
+part(ws, 'Kelp_2', 19.07, -2.0, 53.4, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.03, 0, 0.12)
+part(ws, 'Kelp_3', 72.38, -2.0, 93.32, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.2, 0, -0.13)
+part(ws, 'Kelp_4', 2.91, -2.0, 29.37, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.02, 0, -0.13)
+part(ws, 'Kelp_5', 69.69, -2.0, 56.2, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.15, 0, 0.06)
+part(ws, 'Kelp_6', -89.64, -2.0, 44.96, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.05, 0, -0.11)
+part(ws, 'Kelp_7', -62.24, -2.0, 63.8, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.15, 0, 0.19)
+part(ws, 'Kelp_8', -2.78, -2.0, 84.92, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.09, 0, -0.05)
+part(ws, 'Kelp_9', 21.05, -2.0, 66.8, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.06, 0, 0.16)
+part(ws, 'Kelp_10', -68.23, -2.0, 56.52, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.13, 0, 0.07)
+part(ws, 'Kelp_11', -7.93, -2.0, 61.83, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.11)
+part(ws, 'Kelp_12', -74.18, -2.0, 54.59, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.08, 0, 0.1)
+part(ws, 'Kelp_13', -49.31, -2.0, 41.0, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.0, 0, -0.07)
+part(ws, 'Kelp_14', 73.28, -2.0, 72.91, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.14, 0, -0.04)
+part(ws, 'Kelp_15', -58.19, -2.0, 79.51, 0.3, 4.2, 0.3, {40, 130, 70}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.11, 0, 0.08)
+blob(ws, 'SeaRock_0', -31.67, -3.0, 77.88, 2.82, 2.22, 2.76, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.08, -0.22, -0.12)
+blob(ws, 'SeaRock_1', 67.64, -3.0, 36.14, 3.68, 1.78, 2.29, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.24, 0.04, -0.19)
+blob(ws, 'SeaRock_2', -40.61, -3.0, 48.28, 2.8, 1.26, 3.43, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.09, 0.25, 0.2)
+blob(ws, 'SeaRock_3', 68.88, -3.0, 90.3, 3.34, 1.9, 2.42, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.21, 0.13, -0.24)
+blob(ws, 'SeaRock_4', 12.9, -3.0, 31.34, 2.67, 2.02, 2.83, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.19, -0.1, -0.23)
+blob(ws, 'SeaRock_5', -57.19, -3.0, 20.1, 3.7, 1.56, 2.04, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.11, 0.08, -0.21)
+blob(ws, 'SeaRock_6', 37.36, -3.0, 55.67, 2.02, 1.35, 2.66, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.05, -0.2, -0.1)
+blob(ws, 'SeaRock_7', 12.61, -3.0, 70.18, 3.36, 1.92, 2.22, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.16, 0.14, 0.24)
 part(ws, 'BuoyPole_route0', 0, 0.5, -100, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'BuoyBall_route0', 0, 4.6, -100, 2.4, 2.4, 2.4, {255, 214, 150}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 part(ws, 'BuoyPole_route1', 0, 0.5, -400, 0.6, 8, 0.6, {90, 90, 100}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
@@ -424,133 +479,135 @@ part(ws, 'ZoneRegion_sunken_grotto', 800, 0, -2000, 180, 80, 180, {255, 255, 255
 do local b = part(ws, 'BuoyBall_sunken_grotto', 800, 4.6, -2000, 2.4, 2.4, 2.4, {120, 220, 200}, Enum.Material.Neon, 0, true, Enum.PartType.Ball)
 billboard(b, [===[The Sunken Grotto]===], {120, 220, 200}, 6)
 end
-part(ws, 'Seagrass_0', 102.71, -2.0, -857.15, 0.3, 4.13, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.1, 0, -0.21)
-part(ws, 'Seagrass_1', -146.6, -2.0, -991.16, 0.3, 3.4, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.2, 0, 0.15)
-part(ws, 'Seagrass_2', 96.06, -2.0, -852.98, 0.3, 3.73, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.02, 0, -0.17)
-part(ws, 'Seagrass_3', -58.11, -2.0, -1151.49, 0.3, 3.28, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.18)
-part(ws, 'Seagrass_4', -154.16, -2.0, -1145.22, 0.3, 4.44, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.13, 0, 0.01)
-part(ws, 'Seagrass_5', 74.38, -2.0, -885.92, 0.3, 3.17, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.23)
-part(ws, 'Seagrass_6', -82.56, -2.0, -930.57, 0.3, 3.44, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.13, 0, -0.13)
-part(ws, 'Seagrass_7', 115.58, -2.0, -1059.96, 0.3, 2.58, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.13, 0, -0.16)
-part(ws, 'Seagrass_8', -99.65, -2.0, -1123.61, 0.3, 3.45, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.06, 0, 0.01)
-part(ws, 'Seagrass_9', -0.33, -2.0, -1090.06, 0.3, 3.96, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.01, 0, 0.14)
-part(ws, 'Seagrass_10', -65.7, -2.0, -884.61, 0.3, 3.13, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.13, 0, 0.18)
-part(ws, 'Seagrass_11', 25.71, -2.0, -1046.89, 0.3, 4.24, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.02)
-part(ws, 'Seagrass_12', 20.08, -2.0, -902.13, 0.3, 3.67, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, -0.02)
-part(ws, 'Seagrass_13', 98.48, -2.0, -903.44, 0.3, 4.11, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.04, 0, 0.24)
-part(ws, 'Seagrass_14', -81.82, -2.0, -1143.64, 0.3, 4.0, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, -0.12)
-part(ws, 'Seagrass_15', -40.24, -2.0, -1078.29, 0.3, 4.37, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.23, 0, 0.1)
-part(ws, 'Seagrass_16', 41.88, -2.0, -931.96, 0.3, 2.73, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.03, 0, 0.08)
-part(ws, 'Seagrass_17', -46.19, -2.0, -877.54, 0.3, 4.42, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.02, 0, 0.22)
-part(ws, 'Seagrass_18', 41.75, -2.0, -1148.91, 0.3, 4.36, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.18, 0, -0.15)
-part(ws, 'Seagrass_19', 48.39, -2.0, -1005.93, 0.3, 3.08, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, -0.22)
-part(ws, 'Seagrass_20', -94.53, -2.0, -1068.19, 0.3, 3.79, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.01, 0, -0.12)
-part(ws, 'Seagrass_21', 123.4, -2.0, -927.13, 0.3, 2.84, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.07, 0, 0.04)
-part(ws, 'Seagrass_22', -83.84, -2.0, -897.53, 0.3, 3.58, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.14, 0, -0.05)
-part(ws, 'Seagrass_23', -132.01, -2.0, -1149.94, 0.3, 3.33, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, -0.03)
-part(ws, 'Seagrass_24', 39.21, -2.0, -1105.1, 0.3, 2.83, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.15, 0, 0.13)
-part(ws, 'Seagrass_25', -32.05, -2.0, -845.26, 0.3, 3.81, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.02, 0, -0.24)
-part(ws, 'Seagrass_26', -136.22, -2.0, -919.08, 0.3, 4.46, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.01)
-part(ws, 'Seagrass_27', -82.17, -2.0, -898.22, 0.3, 4.24, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.18, 0, 0.15)
-part(ws, 'Seagrass_28', -103.77, -2.0, -983.96, 0.3, 2.78, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.16, 0, -0.21)
-part(ws, 'Seagrass_29', 63.35, -2.0, -958.63, 0.3, 3.84, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.08, 0, 0.22)
-part(ws, 'Seagrass_30', -133.37, -2.0, -941.87, 0.3, 2.54, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.12, 0, -0.19)
-part(ws, 'Seagrass_31', 120.85, -2.0, -858.12, 0.3, 3.69, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.04, 0, 0.25)
-part(ws, 'Seagrass_32', -102.52, -2.0, -921.11, 0.3, 2.52, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.24, 0, 0.21)
-part(ws, 'Seagrass_33', -103.83, -2.0, -1013.38, 0.3, 2.69, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.08, 0, 0.13)
-part(ws, 'Seagrass_34', -109.08, -2.0, -854.56, 0.3, 4.37, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.01, 0, -0.22)
-part(ws, 'Seagrass_35', -158.73, -2.0, -991.21, 0.3, 2.8, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.22, 0, -0.24)
-part(ws, 'Seagrass_36', 34.73, -2.0, -856.51, 0.3, 3.26, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.06, 0, -0.03)
-part(ws, 'Seagrass_37', -121.12, -2.0, -1087.22, 0.3, 3.15, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.15, 0, 0.17)
-part(ws, 'Seagrass_38', 145.04, -2.0, -1019.59, 0.3, 3.39, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.22, 0, -0.1)
-part(ws, 'Seagrass_39', -17.3, -2.0, -960.94, 0.3, 3.44, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.18, 0, 0.16)
-part(ws, 'Seagrass_40', -127.47, -2.0, -984.67, 0.3, 2.91, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.24, 0, -0.1)
-part(ws, 'Seagrass_41', 153.19, -2.0, -841.55, 0.3, 2.95, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.1, 0, -0.09)
-part(ws, 'Seagrass_42', 96.03, -2.0, -1086.45, 0.3, 2.76, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.08, 0, 0.02)
-part(ws, 'Seagrass_43', -93.55, -2.0, -984.29, 0.3, 4.32, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.02, 0, -0.06)
-part(ws, 'Seagrass_44', -75.63, -2.0, -883.0, 0.3, 3.4, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.16, 0, -0.1)
-part(ws, 'Seagrass_45', 75.18, -2.0, -896.07, 0.3, 3.1, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.17, 0, 0.09)
-part(ws, 'Seagrass_46', -119.99, -2.0, -844.24, 0.3, 3.77, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.09, 0, 0.06)
-part(ws, 'Seagrass_47', 76.13, -2.0, -904.12, 0.3, 3.53, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.17)
-part(ws, 'Seagrass_48', -87.73, -2.0, -938.83, 0.3, 4.26, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.19, 0, 0.22)
-part(ws, 'Seagrass_49', 3.48, -2.0, -903.66, 0.3, 4.16, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.06, 0, -0.07)
-part(ws, 'Seagrass_50', 156.8, -2.0, -919.6, 0.3, 3.55, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.24, 0, 0.01)
-part(ws, 'Seagrass_51', -36.03, -2.0, -874.47, 0.3, 3.23, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.22, 0, -0.13)
-part(ws, 'Seagrass_52', 27.07, -2.0, -1046.01, 0.3, 3.99, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.19, 0, -0.2)
-part(ws, 'Seagrass_53', -91.1, -2.0, -1003.03, 0.3, 3.29, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.25, 0, -0.17)
-part(ws, 'Seagrass_54', 4.18, -2.0, -1040.32, 0.3, 3.59, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.24, 0, -0.19)
-part(ws, 'Seagrass_55', -32.79, -2.0, -1013.64, 0.3, 3.19, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.01, 0, 0.19)
-part(ws, 'Seagrass_56', -128.49, -2.0, -1084.8, 0.3, 3.12, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.25, 0, 0.2)
-part(ws, 'Seagrass_57', 83.76, -2.0, -949.16, 0.3, 3.42, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.04, 0, 0.07)
-part(ws, 'Seagrass_58', 104.55, -2.0, -1098.98, 0.3, 4.1, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.18, 0, -0.08)
-part(ws, 'Seagrass_59', -102.04, -2.0, -1132.29, 0.3, 2.97, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.03, 0, 0.23)
-part(ws, 'Shallow_0', 124.75, 0.04, -874.55, 26.81, 0.2, 33.71, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Shallow_1', 76.08, 0.04, -1110.72, 18.33, 0.2, 25.42, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Shallow_2', 112.92, 0.04, -1131.19, 25.97, 0.2, 25.18, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Shallow_3', -44.54, 0.04, -1120.44, 18.75, 0.2, 20.9, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Shallow_4', 42.09, 0.04, -1073.28, 26.72, 0.2, 21.97, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Shallow_5', -117.31, 0.04, -864.64, 18.18, 0.2, 20.27, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Rock_0_-1000_0', 5.13, 0.53, -1007.86, 3.3, 2.31, 2.68, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.11, -0.17, 0.08)
-part(ws, 'Rock_0_-1000_1', -7.45, 0.04, -1002.23, 3.74, 2.7, 4.47, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.07, 0.02, -0.07)
-part(ws, 'Rock_0_-1000_2', -0.91, 0.76, -1004.12, 2.78, 4.12, 4.32, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.09, -0.08, -0.07)
-part(ws, 'Rock_0_-1000_3', -11.56, -1.79, -994.75, 2.59, 3.78, 4.09, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.11, -0.07, 0.04)
-part(ws, 'Rock_0_-1000_4', 4.62, 0.23, -996.71, 4.93, 4.61, 4.98, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.05, -0.05, -0.15)
-part(ws, 'Rock_0_-1000_5', -6.42, 0.58, -994.37, 4.35, 2.03, 3.24, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.06, 0.02, 0.01)
-part(ws, 'Rock_0_-1000_6', -15.22, -0.5, -992.55, 3.15, 4.74, 4.86, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.13, -0.11, -0.14)
-part(ws, 'Rock_0_-1000_7', -3.72, 0.06, -989.96, 3.37, 4.03, 3.61, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.11, 0.15, -0.08)
-part(ws, 'Rock_0_-1000_8', 7.11, -1.49, -1015.71, 4.38, 5.0, 4.62, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.02, 0.13, 0.07)
-part(ws, 'Rock_0_-1000_9', 6.97, -0.57, -990.21, 3.11, 4.03, 4.38, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.06, -0.09, 0.13)
+part(ws, 'Seagrass_0', 156.29, -2.0, -868.65, 0.3, 3.82, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.08, 0, -0.08)
+part(ws, 'Seagrass_1', 34.11, -2.0, -1078.29, 0.3, 4.27, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.17, 0, -0.23)
+part(ws, 'Seagrass_2', -3.2, -2.0, -1153.03, 0.3, 4.12, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.12, 0, 0.13)
+part(ws, 'Seagrass_3', -96.41, -2.0, -1072.44, 0.3, 4.18, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.05, 0, -0.14)
+part(ws, 'Seagrass_4', -142.66, -2.0, -1028.53, 0.3, 2.63, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.11, 0, 0.08)
+part(ws, 'Seagrass_5', 58.26, -2.0, -914.93, 0.3, 3.1, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.01, 0, -0.2)
+part(ws, 'Seagrass_6', 3.08, -2.0, -992.82, 0.3, 3.15, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.09, 0, -0.08)
+part(ws, 'Seagrass_7', -102.03, -2.0, -843.57, 0.3, 4.23, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.16, 0, -0.12)
+part(ws, 'Seagrass_8', 143.19, -2.0, -881.11, 0.3, 3.54, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.06, 0, -0.2)
+part(ws, 'Seagrass_9', 34.99, -2.0, -1091.25, 0.3, 3.43, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.15, 0, 0.0)
+part(ws, 'Seagrass_10', 8.5, -2.0, -995.62, 0.3, 4.08, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.11, 0, 0.19)
+part(ws, 'Seagrass_11', -3.65, -2.0, -981.16, 0.3, 4.18, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.09, 0, 0.25)
+part(ws, 'Seagrass_12', -34.56, -2.0, -963.12, 0.3, 3.58, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.03)
+part(ws, 'Seagrass_13', 153.52, -2.0, -926.8, 0.3, 2.76, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.16, 0, 0.08)
+part(ws, 'Seagrass_14', -140.46, -2.0, -946.67, 0.3, 2.57, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.14, 0, 0.22)
+part(ws, 'Seagrass_15', -102.72, -2.0, -1074.38, 0.3, 3.58, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.07, 0, -0.02)
+part(ws, 'Seagrass_16', -100.3, -2.0, -1142.83, 0.3, 2.87, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, 0.07)
+part(ws, 'Seagrass_17', -3.28, -2.0, -985.26, 0.3, 2.56, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.14, 0, -0.07)
+part(ws, 'Seagrass_18', 13.68, -2.0, -1011.0, 0.3, 3.99, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, -0.09)
+part(ws, 'Seagrass_19', 68.74, -2.0, -1147.11, 0.3, 2.52, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.2, 0, 0.04)
+part(ws, 'Seagrass_20', 65.49, -2.0, -899.69, 0.3, 3.01, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.13, 0, -0.17)
+part(ws, 'Seagrass_21', -98.78, -2.0, -898.73, 0.3, 3.35, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.03, 0, 0.17)
+part(ws, 'Seagrass_22', -105.39, -2.0, -1088.11, 0.3, 4.44, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.14, 0, -0.17)
+part(ws, 'Seagrass_23', 157.4, -2.0, -1024.97, 0.3, 3.35, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.18, 0, 0.1)
+part(ws, 'Seagrass_24', 149.9, -2.0, -958.61, 0.3, 3.38, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.22, 0, 0.05)
+part(ws, 'Seagrass_25', -130.64, -2.0, -872.98, 0.3, 3.98, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.19, 0, -0.21)
+part(ws, 'Seagrass_26', 68.74, -2.0, -960.9, 0.3, 2.82, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.16, 0, 0.07)
+part(ws, 'Seagrass_27', -99.42, -2.0, -856.64, 0.3, 4.47, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.23, 0, 0.24)
+part(ws, 'Seagrass_28', 47.42, -2.0, -867.63, 0.3, 4.08, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.11, 0, -0.07)
+part(ws, 'Seagrass_29', -156.95, -2.0, -993.27, 0.3, 4.27, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.17, 0, -0.01)
+part(ws, 'Seagrass_30', -115.86, -2.0, -906.13, 0.3, 3.62, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.23, 0, -0.02)
+part(ws, 'Seagrass_31', 34.73, -2.0, -970.23, 0.3, 4.36, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.09, 0, -0.09)
+part(ws, 'Seagrass_32', -78.45, -2.0, -941.75, 0.3, 3.42, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.08, 0, 0.16)
+part(ws, 'Seagrass_33', 8.13, -2.0, -990.3, 0.3, 2.7, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.11, 0, -0.23)
+part(ws, 'Seagrass_34', 28.87, -2.0, -1137.52, 0.3, 4.35, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, -0.06)
+part(ws, 'Seagrass_35', 46.55, -2.0, -976.01, 0.3, 3.41, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.01, 0, -0.24)
+part(ws, 'Seagrass_36', 127.42, -2.0, -1117.02, 0.3, 2.71, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.2, 0, 0.02)
+part(ws, 'Seagrass_37', -78.42, -2.0, -849.0, 0.3, 4.0, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.21, 0, 0.05)
+part(ws, 'Seagrass_38', -121.7, -2.0, -851.56, 0.3, 4.31, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.11, 0, -0.1)
+part(ws, 'Seagrass_39', -9.35, -2.0, -1056.88, 0.3, 4.29, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.1, 0, -0.05)
+part(ws, 'Seagrass_40', 4.51, -2.0, -888.5, 0.3, 3.34, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.01, 0, 0.05)
+part(ws, 'Seagrass_41', -19.67, -2.0, -913.99, 0.3, 3.68, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.05, 0, -0.01)
+part(ws, 'Seagrass_42', -154.77, -2.0, -857.46, 0.3, 3.27, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.23, 0, -0.02)
+part(ws, 'Seagrass_43', -115.11, -2.0, -1082.87, 0.3, 3.54, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.12, 0, -0.03)
+part(ws, 'Seagrass_44', 75.28, -2.0, -1151.58, 0.3, 3.7, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.01, 0, 0.23)
+part(ws, 'Seagrass_45', -120.91, -2.0, -1042.08, 0.3, 2.93, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.21, 0, -0.16)
+part(ws, 'Seagrass_46', -30.27, -2.0, -1124.46, 0.3, 2.71, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.24, 0, -0.05)
+part(ws, 'Seagrass_47', -158.15, -2.0, -1097.07, 0.3, 3.03, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.15, 0, 0.01)
+part(ws, 'Seagrass_48', 131.89, -2.0, -1132.94, 0.3, 2.84, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.21, 0, -0.14)
+part(ws, 'Seagrass_49', 109.49, -2.0, -903.02, 0.3, 3.62, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.2, 0, 0.02)
+part(ws, 'Seagrass_50', -148.62, -2.0, -852.83, 0.3, 4.46, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.1, 0, 0.17)
+part(ws, 'Seagrass_51', 4.96, -2.0, -861.13, 0.3, 4.41, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.2, 0, 0.23)
+part(ws, 'Seagrass_52', 48.14, -2.0, -849.27, 0.3, 2.59, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.2, 0, 0.08)
+part(ws, 'Seagrass_53', -70.68, -2.0, -1157.66, 0.3, 3.74, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.23, 0, 0.21)
+part(ws, 'Seagrass_54', -137.18, -2.0, -935.77, 0.3, 3.59, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.02, 0, 0.01)
+part(ws, 'Seagrass_55', 12.87, -2.0, -1001.51, 0.3, 2.61, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.07, 0, 0.02)
+part(ws, 'Seagrass_56', -11.51, -2.0, -1082.47, 0.3, 2.53, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.06, 0, -0.21)
+part(ws, 'Seagrass_57', 55.96, -2.0, -1102.89, 0.3, 2.97, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.03, 0, 0.0)
+part(ws, 'Seagrass_58', -52.13, -2.0, -1070.74, 0.3, 3.79, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, -0.17, 0, -0.2)
+part(ws, 'Seagrass_59', -49.81, -2.0, -920.69, 0.3, 2.76, 0.3, {45, 140, 80}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Cylinder, 0.22, 0, 0.18)
+part(ws, 'Shallow_0', 83.69, 0.04, -903.17, 25.59, 0.2, 29.1, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Shallow_1', 56.01, 0.04, -1053.28, 25.92, 0.2, 19.85, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Shallow_2', -149.55, 0.04, -1036.14, 33.45, 0.2, 25.97, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Shallow_3', -24.41, 0.04, -979.97, 26.2, 0.2, 23.7, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Shallow_4', 72.77, 0.04, -972.62, 28.4, 0.2, 21.81, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Shallow_5', -36.83, 0.04, -1076.57, 22.86, 0.2, 28.81, {120, 230, 220}, Enum.Material.Glass, 0.75, false, Enum.PartType.Block, 0, 0, 0)
+blob(ws, 'Rock_0_-1000_0', 6.71, -0.88, -997.02, 3.59, 4.03, 3.03, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.04, -0.15, -0.01)
+blob(ws, 'Rock_0_-1000_1', 14.59, -0.29, -997.32, 3.99, 1.92, 2.38, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.05, -0.15, -0.03)
+blob(ws, 'Rock_0_-1000_2', -5.22, 0.1, -1011.41, 2.02, 3.08, 2.29, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.22, -0.07, -0.11)
+blob(ws, 'Rock_0_-1000_3', 7.8, 0.69, -993.45, 2.75, 3.46, 3.23, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.17, 0.07, -0.23)
+blob(ws, 'Rock_0_-1000_4', -8.51, 0.34, -994.97, 4.28, 2.63, 4.6, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.2, -0.07, 0.05)
+blob(ws, 'Rock_0_-1000_5', 5.4, 0.05, -1003.98, 2.91, 2.98, 4.91, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.21, -0.15, 0.0)
+blob(ws, 'Rock_0_-1000_6', -15.02, -1.21, -996.62, 2.51, 2.7, 3.74, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.0, -0.26, -0.1)
+blob(ws, 'Rock_0_-1000_7', -14.33, -0.79, -996.77, 2.89, 2.66, 4.95, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.16, 0.27, -0.11)
+blob(ws, 'Rock_0_-1000_8', 4.16, -0.28, -985.7, 4.5, 2.5, 3.17, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.04, 0.07, 0.2)
+blob(ws, 'Rock_0_-1000_9', 9.45, -0.12, -991.44, 3.13, 3.76, 4.6, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.16, 0.07, -0.01)
 part(ws, 'IsletBase', 60, -1.0, -1030, 26, 2, 20, {200, 180, 140}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'IsletSand1', 60, 0.48, -1030, 20, 0.15, 16, {232, 214, 160}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'IsletSand2', 60, 0.53, -1030, 14, 0.2, 12, {232, 214, 160}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'PalmTrunk_Isle', 60.22, 3.4, -1029.36, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.03, 0, -0.07)
-part(ws, 'PalmLeaf_Isle_0', 65.39, 5.5, -1030.52, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_Isle_1', 60.66, 5.5, -1026.71, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_Isle_2', 55.77, 5.5, -1031.48, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_Isle_3', 59.58, 5.5, -1033.98, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_Isle_4', 58.61, 5.5, -1034.31, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_Isle', 62.38, 4.7, -1029.93, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_Isle', 61.13, 4.7, -1032.07, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'IsletRock_0', 61.21, 0.79, -1030.82, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.12, -0.12, -0.03)
-part(ws, 'IsletRock_1', 61.87, 1.03, -1028.57, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.15, 0.03, -0.12)
-part(ws, 'IsletRock_2', 58.78, 1.26, -1030.98, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.06, 0.02, 0.1)
+part(ws, 'PalmTrunk_Isle', 61.88, 3.4, -1030.39, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, -0.05, 0, -0.08)
+blob(ws, 'PalmCanopy_Isle_0', 64.08, 5.4, -1030.39, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_Isle_1', 62.98, 5.88, -1028.48, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_Isle_2', 60.77, 5.66, -1028.49, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_Isle_3', 59.68, 5.06, -1030.41, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_Isle_4', 60.81, 4.96, -1032.3, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_Isle_5', 63.01, 5.51, -1032.28, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_Isle', 61.88, 5.8, -1030.39, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_Isle', 61.48, 4.9, -1030.09, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_Isle', 62.28, 4.9, -1030.69, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+blob(ws, 'IsletRock_0', 58.41, 0.7, -1031.13, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.19, 0.06, 0.07)
+blob(ws, 'IsletRock_1', 60.51, 1.79, -1030.33, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.09, 0.24, -0.2)
+blob(ws, 'IsletRock_2', 59.37, 0.68, -1031.4, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.06, -0.24, -0.2)
 part(ws, 'ArchPillar1', -45, -1.0, -1000, 5, 14, 5, {120, 118, 124}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'ArchPillar2', -15, -1.0, -1000, 5, 14, 5, {120, 118, 124}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'ArchBeam', -30, 5.5, -1000, 36, 6, 6, {120, 118, 124}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Cliff_0', 150.0, 5.37, -2000.0, 19.15, 16.73, 15.58, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.06, 0.15, -0.07)
-part(ws, 'Cliff_1', 145.64, 5.97, -1990.43, 19.53, 17.94, 11.2, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.05, 0.06, -0.03)
-part(ws, 'Cliff_2', 132.82, 5.94, -1981.41, 18.49, 17.88, 13.6, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.09, 0.06, -0.07)
-part(ws, 'Cliff_3', 112.28, 9.96, -1973.48, 27.18, 25.93, 17.98, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.09, 0.02, 0.07)
-part(ws, 'Cliff_4', 85.21, 6.13, -1967.08, 19.86, 18.26, 16.35, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.09, -0.08, -0.05)
-part(ws, 'Cliff_5', 53.19, 6.96, -1962.6, 27.06, 19.93, 19.72, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, -0.08, -0.05)
-part(ws, 'Cliff_6', 18.08, 8.39, -1960.29, 21.8, 22.78, 14.79, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.04, -0.15, 0.09)
-part(ws, 'Cliff_7', -18.08, 9.55, -1960.29, 16.66, 25.1, 10.68, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.05, -0.16, -0.06)
-part(ws, 'Cliff_8', -53.19, 6.01, -1962.6, 23.56, 18.03, 10.3, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.04, -0.19, 0.07)
-part(ws, 'Cliff_9', -85.21, 5.47, -1967.08, 22.98, 16.94, 15.21, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.02, -0.07, 0.05)
-part(ws, 'Cliff_10', -112.28, 6.09, -1973.48, 21.01, 18.19, 16.76, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.04, 0.17, -0.0)
-part(ws, 'Cliff_11', -132.82, 7.14, -1981.41, 24.75, 20.29, 13.42, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, 0.02, -0.05)
-part(ws, 'Cliff_12', -145.64, 8.17, -1990.43, 20.82, 22.34, 14.03, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.07, -0.17, 0.03)
-part(ws, 'Cliff_13', -150.0, 8.79, -2000.0, 16.29, 23.58, 14.66, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.04, 0.06, -0.09)
-part(ws, 'FogWisp_0', -113.37, 5.3, -2027.04, 34.28, 2, 21.04, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_1', -46.1, 2.61, -2107.01, 28.45, 2, 21.03, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_2', -70.96, 3.07, -1872.58, 20.18, 2, 12.54, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_3', 150.66, 4.37, -2091.65, 38.04, 2, 25.24, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_4', -117.67, 2.99, -1971.4, 23.59, 2, 22.51, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_5', -68.43, 6.11, -1984.26, 24.02, 2, 17.55, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_6', 111.79, 6.37, -1969.78, 34.77, 2, 20.02, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'FogWisp_7', 65.52, 4.45, -1923.77, 39.57, 2, 15.34, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Cliff_0', 150.0, 9.09, -2000.0, 28.24, 24.18, 15.54, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, 0.04, -0.08)
+part(ws, 'Cliff_1', 145.64, 6.73, -1990.43, 18.09, 19.46, 14.66, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.07, -0.16, 0.1)
+part(ws, 'Cliff_2', 132.82, 8.98, -1981.41, 21.93, 23.96, 19.47, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, 0.07, -0.02)
+part(ws, 'Cliff_3', 112.28, 9.96, -1973.48, 22.19, 25.92, 10.61, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, 0.1, 0.1)
+part(ws, 'Cliff_4', 85.21, 7.04, -1967.08, 21.99, 20.08, 10.69, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.04, 0.01, -0.02)
+part(ws, 'Cliff_5', 53.19, 6.75, -1962.6, 18.36, 19.5, 18.57, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.02, 0.12, -0.05)
+part(ws, 'Cliff_6', 18.08, 9.01, -1960.29, 27.0, 24.02, 16.95, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, 0.1, -0.02)
+part(ws, 'Cliff_7', -18.08, 8.17, -1960.29, 24.09, 22.34, 16.18, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.04, 0.14, 0.07)
+part(ws, 'Cliff_8', -53.19, 6.55, -1962.6, 26.38, 19.11, 16.05, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.06, -0.03, -0.09)
+part(ws, 'Cliff_9', -85.21, 8.05, -1967.08, 23.38, 22.1, 12.9, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.05, 0.15, -0.06)
+part(ws, 'Cliff_10', -112.28, 9.66, -1973.48, 26.19, 25.32, 14.42, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, 0.01, 0.09)
+part(ws, 'Cliff_11', -132.82, 6.56, -1981.41, 28.21, 19.11, 12.47, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.08, 0.04, -0.03)
+part(ws, 'Cliff_12', -145.64, 6.59, -1990.43, 28.9, 19.18, 16.38, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.03, -0.04, -0.02)
+part(ws, 'Cliff_13', -150.0, 7.31, -2000.0, 21.27, 20.62, 11.07, {70, 72, 80}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, 0.13, -0.01)
+part(ws, 'FogWisp_0', 57.54, 4.92, -1980.57, 27.17, 2, 22.65, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_1', -36.37, 3.75, -2069.7, 29.6, 2, 17.04, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_2', -10.89, 5.02, -1898.17, 25.88, 2, 25.66, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_3', 93.83, 2.58, -2047.36, 25.23, 2, 16.2, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_4', 116.72, 5.55, -2139.38, 24.37, 2, 13.09, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_5', -103.51, 5.54, -1878.16, 39.22, 2, 19.56, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_6', -127.0, 5.06, -1995.47, 32.35, 2, 16.05, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FogWisp_7', -125.41, 4.09, -2107.37, 39.96, 2, 24.71, {230, 240, 250}, Enum.Material.SmoothPlastic, 0.72, false, Enum.PartType.Block, 0, 0, 0)
 do
 part(ws, 'WreckHull', -90, -0.5, -2010, 20, 5, 8, {90, 62, 40}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.45, 0.25, 0)
 part(ws, 'WreckDeck', -90, 1.2, -2010, 18, 1, 7, {120, 88, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.45, 0.25, 0)
 part(ws, 'WreckMast', -95, 2.5, -2015, 1.4, 14, 1.4, {100, 70, 45}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0.2)
 part(ws, 'WreckBow', -81, -1.0, -2008, 6, 3, 5, {80, 55, 35}, Enum.Material.Wood, 0, true, Enum.PartType.Wedge, 0.3, 0, 0)
 end
-part(ws, 'WreckPlank_0', -79.16, -0.6, -2006.15, 5.35, 0.4, 1.24, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.36, 0.24, -0.31)
-part(ws, 'WreckPlank_1', -91.12, -0.6, -2014.47, 5.32, 0.4, 1.54, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.12, -0.03, -0.05)
-part(ws, 'WreckPlank_2', -77.53, -0.6, -2004.33, 5.16, 0.4, 1.46, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.19, 0.13, -0.22)
-part(ws, 'WreckPlank_3', -79.1, -0.6, -2010.57, 5.09, 0.4, 0.85, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, -0.11, 0.03, -0.07)
-part(ws, 'WreckPlank_4', -95.2, -0.6, -2016.54, 5.1, 0.4, 1.02, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.21, 0.02, -0.37)
-part(ws, 'WreckPlank_5', -77.44, -0.6, -2005.04, 5.74, 0.4, 1.56, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, -0.23, 0.17, -0.49)
+part(ws, 'WreckPlank_0', -81.76, -0.6, -2016.85, 4.77, 0.4, 1.39, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, -0.11, -0.36, 0.47)
+part(ws, 'WreckPlank_1', -88.27, -0.6, -2017.62, 5.31, 0.4, 1.03, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.42, 0.06, 0.33)
+part(ws, 'WreckPlank_2', -91.65, -0.6, -2003.11, 4.24, 0.4, 0.92, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.14, 0.49, -0.34)
+part(ws, 'WreckPlank_3', -92.88, -0.6, -2017.22, 4.36, 0.4, 1.26, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.32, -0.06, 0.14)
+part(ws, 'WreckPlank_4', -82.04, -0.6, -2013.4, 5.34, 0.4, 1.44, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, -0.07, -0.23, 0.24)
+part(ws, 'WreckPlank_5', -89.33, -0.6, -2015.59, 3.96, 0.4, 1.41, {110, 78, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0.19, -0.47, -0.4)
 part(ws, 'WreckAnchor', -100, -1.0, -2004, 2.2, 3, 2.2, {90, 90, 95}, Enum.Material.Metal, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'WreckAnchorArm1', -100, 0.2, -2004, 1, 1, 4, {90, 90, 95}, Enum.Material.Metal, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'WreckAnchorArm2', -100, 0.2, -2004, 4, 1, 1, {90, 90, 95}, Enum.Material.Metal, 0, true, Enum.PartType.Block, 0, 0, 0)
@@ -600,120 +657,123 @@ do local b = part(ws, 'LavaGlow', 0, 14.6, -3000, 2, 2, 2, {255, 150, 40}, Enum.
 light(b, {255, 120, 30}, 2.2, 80)
 fx(b, {255, 130, 40}, 6, 0.7, 1.4, 0.6, 1.8, 0.3, 0.8, 0.2, 1)
 end
-part(ws, 'LavaCrack_0', -30.34, 0.5, -3046.17, 6.72, 0.2, 2.16, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 0.84, 0)
-part(ws, 'LavaCrack_1', 67.75, 0.5, -2964.91, 6.98, 0.2, 1.11, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 1.65, 0)
-part(ws, 'LavaCrack_2', -32.78, 0.5, -3032.7, 3.03, 0.2, 1.59, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 0.28, 0)
-part(ws, 'LavaCrack_3', -18.16, 0.5, -2964.27, 5.76, 0.2, 2.11, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 0.0, 0)
-part(ws, 'LavaCrack_4', -62.34, 0.5, -3067.77, 5.86, 0.2, 1.94, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 1.9, 0)
-part(ws, 'LavaCrack_5', -67.39, 0.5, -3001.46, 6.08, 0.2, 1.89, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 0.32, 0)
+part(ws, 'LavaCrack_0', -4.72, 0.5, -3059.21, 4.56, 0.2, 1.11, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 2.98, 0)
+part(ws, 'LavaCrack_1', -18.61, 0.5, -2976.2, 4.11, 0.2, 1.33, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 1.02, 0)
+part(ws, 'LavaCrack_2', -57.0, 0.5, -2994.53, 3.44, 0.2, 1.82, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 2.07, 0)
+part(ws, 'LavaCrack_3', -5.04, 0.5, -3021.32, 6.14, 0.2, 1.21, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 0.45, 0)
+part(ws, 'LavaCrack_4', 7.32, 0.5, -2974.36, 4.56, 0.2, 1.88, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 1.41, 0)
+part(ws, 'LavaCrack_5', -43.25, 0.5, -2963.59, 6.75, 0.2, 1.71, {255, 110, 30}, Enum.Material.Neon, 0, false, Enum.PartType.Block, 0, 2.73, 0)
 part(ws, 'FallCliff', 150, 4, -3010, 30, 20, 10, {90, 70, 70}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'FallWater', 150, 2, -3010, 2.5, 18, 6, {170, 220, 240}, Enum.Material.Glass, 0.45, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'FallMist1', 150, -1, -3010, 12, 2, 8, {220, 235, 245}, Enum.Material.SmoothPlastic, 0.6, false, Enum.PartType.Block, 0, 0, 0)
 do local m = part(ws, 'FallMistFX', 150, -1.2, -3010, 1, 1, 1, {255, 255, 255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Ball)
 fx(m, {220, 235, 245}, 10, 0.8, 1.6, 1, 2.5, 1.5, 3, 0.35, 1)
 end
-part(ws, 'Rock_0_-3000_0', 8.06, 0.81, -3011.51, 2.47, 2.6, 2.66, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.14, 0.01, 0.0)
-part(ws, 'Rock_0_-3000_1', -3.33, 0.71, -3000.65, 4.69, 4.9, 3.2, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, -0.06, -0.13)
-part(ws, 'Rock_0_-3000_2', -11.23, -0.88, -3006.35, 2.12, 4.55, 2.02, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.06, -0.04, 0.08)
-part(ws, 'Rock_0_-3000_3', 13.83, -0.12, -2989.8, 3.01, 3.05, 4.44, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.12, -0.14, -0.02)
-part(ws, 'Rock_0_-3000_4', 1.82, -1.15, -3011.86, 3.81, 4.44, 3.42, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.03, -0.13, 0.06)
-part(ws, 'Rock_0_-3000_5', -12.33, -0.07, -2998.46, 4.2, 4.69, 2.59, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, 0.14, 0.0)
-part(ws, 'Rock_0_-3000_6', -13.64, -1.24, -2998.97, 4.44, 4.58, 3.78, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, -0.19, -0.03)
-part(ws, 'Rock_0_-3000_7', 9.28, 0.03, -3006.63, 2.94, 3.27, 4.9, {90, 60, 55}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.03, -0.03, 0.1)
-part(ws, 'Iceberg0_0', -104.72, -1.01, -3878.16, 8.91, 7.6, 12.55, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.12, 0.06, 0.04)
-part(ws, 'Iceberg0_1', -111.45, -0.84, -3873.91, 15.49, 8.44, 16.08, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.0, -0.1, -0.11)
-part(ws, 'Iceberg0_2', -103.48, 0.03, -3871.25, 8.15, 10.38, 15.15, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, 0.07, -0.08)
-part(ws, 'Iceberg0_3', -111.55, 0.37, -3884.77, 9.63, 7.34, 12.67, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.11, 0.09, 0.04)
-part(ws, 'Iceberg0_4', -104.53, 0.25, -3886.24, 8.6, 11.99, 9.2, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.12, 0.03, 0.01)
-part(ws, 'Iceberg1_0', -147.3, -0.16, -4108.23, 10.33, 10.5, 9.43, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.09, -0.03, -0.03)
-part(ws, 'Iceberg1_1', -142.79, 0.32, -4118.24, 14.45, 9.16, 16.24, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, -0.01, 0.05)
-part(ws, 'Iceberg1_2', -144.42, -1.17, -4110.34, 13.88, 9.77, 9.75, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.07, 0.14, -0.02)
-part(ws, 'Iceberg1_3', -147.41, -1.45, -4119.31, 13.44, 11.98, 14.9, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.03, 0.12, -0.07)
-part(ws, 'Iceberg2_0', -77.63, 0.65, -4010.24, 10.01, 11.66, 11.62, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.11, 0.06, 0.07)
-part(ws, 'Iceberg2_1', -84.59, 0.69, -3999.28, 17.66, 10.35, 17.18, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.06, -0.13, 0.03)
-part(ws, 'Iceberg2_2', -88.86, 0.77, -4006.46, 10.35, 8.2, 12.18, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.01, -0.14, 0.09)
-part(ws, 'Iceberg2_3', -81.08, 0.95, -4010.53, 9.05, 7.52, 9.08, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.1, -0.09, 0.03)
-part(ws, 'Iceberg2_4', -91.16, -1.06, -4010.76, 9.09, 11.05, 8.02, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.11, -0.11, -0.05)
-part(ws, 'Iceberg3_0', 124.16, 0.52, -3961.88, 10.89, 9.4, 16.61, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, -0.09, 0.0)
-part(ws, 'Iceberg3_1', 122.82, -1.34, -3974.02, 16.0, 10.39, 17.04, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, -0.1, -0.07)
-part(ws, 'Iceberg3_2', 123.98, -0.19, -3967.01, 11.78, 8.93, 17.0, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.07, -0.01, -0.03)
-part(ws, 'Iceberg3_3', 115.65, -1.47, -3972.77, 9.71, 11.06, 13.2, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.04, 0.05, -0.06)
-part(ws, 'Iceberg3_4', 123.13, -0.42, -3964.3, 8.7, 10.23, 14.14, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.1, 0.04, -0.0)
-part(ws, 'Iceberg4_0', -75.05, -0.81, -3952.27, 15.48, 6.53, 14.13, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.03, -0.13, -0.03)
-part(ws, 'Iceberg4_1', -81.13, -0.06, -3962.37, 12.53, 9.43, 8.48, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.02, 0.06, -0.07)
-part(ws, 'Iceberg4_2', -73.32, 0.82, -3954.65, 14.02, 8.33, 16.44, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.01, -0.15, 0.06)
-part(ws, 'Iceberg4_3', -71.86, -0.8, -3963.62, 16.29, 7.83, 16.16, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.09, -0.01, -0.11)
-part(ws, 'Iceberg4_4', -74.79, -0.89, -3954.53, 9.27, 8.53, 17.9, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.1, -0.01, -0.03)
-part(ws, 'Iceberg5_0', 26.35, -0.74, -4042.52, 13.62, 7.05, 14.61, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.09, 0.02, -0.08)
-part(ws, 'Iceberg5_1', 22.7, -0.05, -4034.93, 12.42, 9.44, 10.48, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.1, 0.07, -0.0)
-part(ws, 'Iceberg5_2', 21.6, -1.44, -4034.35, 13.99, 9.0, 14.69, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.11, 0.08, 0.07)
-part(ws, 'Iceberg5_3', 22.48, -1.47, -4035.56, 17.42, 9.77, 16.03, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.11, -0.11, 0.03)
-part(ws, 'Snow_0', -76.43, 0.5, -4100.38, 22.98, 0.15, 18.01, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Snow_1', 64.63, 0.5, -3925.03, 27.35, 0.15, 19.87, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Snow_2', -74.74, 0.5, -4139.94, 22.54, 0.15, 22.15, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Snow_3', -24.0, 0.5, -3902.9, 19.8, 0.15, 18.32, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Snow_4', -93.54, 0.5, -4021.8, 22.64, 0.15, 22.15, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Snow_5', 30.77, 0.5, -4132.9, 17.28, 0.15, 21.21, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'Aurora_0', 163.66, 67.46, -3916.92, 57.39, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.02, 0.17, 0.19)
-part(ws, 'Aurora_1', -38.11, 54.4, -4047.7, 50.34, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.01, 0.05, -0.19)
-part(ws, 'Aurora_2', -104.39, 55.03, -4119.28, 65.93, 1.2, 6, {190, 140, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.04, -0.05, 0.04)
-part(ws, 'Aurora_3', 171.78, 54.99, -3892.71, 53.2, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.12, 0.16, -0.13)
-part(ws, 'Aurora_4', 23.54, 65.38, -4003.57, 62.29, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.19, 0.28, -0.15)
-part(ws, 'Aurora_5', 89.7, 63.16, -4112.18, 50.86, 1.2, 6, {190, 140, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.0, -0.2, -0.05)
-part(ws, 'Aurora_6', -64.37, 62.24, -4099.39, 45.85, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.08, -0.17, -0.07)
-part(ws, 'Aurora_7', -25.24, 66.34, -3933.47, 93.65, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.1, -0.3, 0.14)
-part(ws, 'IceCrystal_0', -126.71, -1.5, -4037.56, 1.36, 2.72, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.1, 0)
-part(ws, 'IceCrystal_1', 121.28, -1.5, -4020.96, 0.89, 3.58, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.85, 0)
-part(ws, 'IceCrystal_2', 71.8, -1.5, -3874.74, 0.62, 3.58, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.14, 0)
-part(ws, 'IceCrystal_3', -52.96, -1.5, -3878.49, 1.03, 4.43, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.33, 0)
-part(ws, 'IceCrystal_4', 90.69, -1.5, -4130.81, 1.23, 3.07, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.77, 0)
-part(ws, 'IceCrystal_5', 54.78, -1.5, -3983.73, 1.27, 4.24, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.53, 0)
-part(ws, 'Bio_0', 34.91, -1.11, -4910.93, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_1', -139.37, -0.82, -5137.48, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_2', 24.17, -0.87, -4893.85, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_3', 140.41, -2.04, -5139.33, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_4', 157.68, -0.91, -5048.48, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_5', 37.84, -1.46, -4917.63, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_6', 53.94, -1.97, -4977.1, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_7', 113.16, -1.5, -4892.2, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_8', 16.03, -1.69, -4895.82, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_9', -69.3, -1.51, -5080.12, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_10', 92.79, -2.28, -5004.59, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_11', -91.04, -1.91, -4978.79, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_12', 21.19, -1.06, -5129.25, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_13', 126.05, -2.08, -5074.03, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_14', -75.03, -1.31, -5156.3, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_15', 155.0, -1.7, -4925.54, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_16', -43.08, -1.07, -4867.4, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_17', 81.64, -2.27, -5072.87, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_18', -135.72, -1.66, -4847.86, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_19', -76.26, -1.44, -5032.34, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_20', -41.21, -1.17, -5152.65, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_21', -109.55, -1.43, -4953.55, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_22', 46.89, -1.42, -5081.23, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_23', 35.86, -0.96, -4864.71, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_24', 61.86, -1.71, -5012.73, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_25', -36.52, -1.39, -4909.64, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_26', 48.97, -2.47, -5156.45, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_27', -135.98, -1.82, -5138.39, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_28', 48.4, -1.43, -5145.32, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_29', 36.66, -2.03, -4858.02, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_30', 152.01, -2.26, -4973.32, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_31', 144.4, -1.29, -4843.9, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_32', 3.57, -1.29, -4863.93, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_33', -37.67, -1.64, -4865.95, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_34', 147.63, -2.1, -5035.88, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_35', -135.14, -1.04, -4842.09, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_36', -100.64, -1.1, -4984.67, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_37', 54.11, -2.0, -4983.03, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_38', 55.87, -1.0, -5010.93, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'Bio_39', 11.08, -1.1, -5038.79, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'AbyssPillar_0', 3.92, -0.95, -4978.53, 5.76, 13.22, 6.0, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'AbyssPillar_1', -3.01, -1.17, -4889.35, 5.94, 12.53, 5.02, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'AbyssPillar_2', -21.33, -0.01, -5042.17, 6.29, 15.13, 4.57, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'AbyssPillar_3', 103.45, 0.56, -4939.74, 6.73, 15.91, 5.92, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'AbyssPillar_4', -3.51, -0.84, -4932.94, 5.51, 11.5, 5.18, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
-part(ws, 'AbyssPillar_5', -93.82, 0.11, -4886.23, 5.37, 13.91, 4.78, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Rock_0_-3000_0', 2.43, -0.74, -2994.32, 4.94, 2.95, 4.97, {90, 60, 55}, Enum.Material.Rock, 0, true, 0.11, -0.02, 0.21)
+blob(ws, 'Rock_0_-3000_1', 12.18, -0.24, -3012.65, 4.67, 3.97, 4.14, {90, 60, 55}, Enum.Material.Rock, 0, true, 0.23, 0.19, -0.21)
+blob(ws, 'Rock_0_-3000_2', -6.72, 1.31, -3006.7, 4.11, 3.69, 4.78, {90, 60, 55}, Enum.Material.Rock, 0, true, 0.19, 0.09, 0.22)
+blob(ws, 'Rock_0_-3000_3', -13.72, -0.99, -2983.14, 3.88, 2.42, 2.76, {90, 60, 55}, Enum.Material.Rock, 0, true, 0.09, 0.02, 0.06)
+blob(ws, 'Rock_0_-3000_4', -16.38, 0.13, -2988.45, 3.48, 3.33, 4.07, {90, 60, 55}, Enum.Material.Rock, 0, true, 0.19, -0.18, 0.22)
+blob(ws, 'Rock_0_-3000_5', 3.3, 0.79, -2998.06, 3.61, 3.52, 3.91, {90, 60, 55}, Enum.Material.Rock, 0, true, -0.03, 0.26, -0.22)
+blob(ws, 'Rock_0_-3000_6', 4.6, 1.0, -2999.05, 3.42, 1.94, 4.75, {90, 60, 55}, Enum.Material.Rock, 0, true, -0.12, -0.15, -0.14)
+blob(ws, 'Rock_0_-3000_7', -9.25, -0.22, -2985.04, 4.05, 1.94, 4.22, {90, 60, 55}, Enum.Material.Rock, 0, true, -0.05, 0.18, 0.07)
+part(ws, 'Iceberg0_0', 89.23, 0.38, -3943.07, 16.21, 9.34, 10.01, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.02, 0.1, 0.09)
+part(ws, 'Iceberg0_1', 96.09, 0.35, -3938.48, 15.05, 8.94, 15.72, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.11, -0.08, 0.09)
+part(ws, 'Iceberg0_2', 98.21, 0.46, -3938.85, 16.56, 10.44, 9.87, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.01, -0.08, 0.07)
+part(ws, 'Iceberg0_3', 101.25, 0.06, -3940.18, 12.55, 11.67, 16.54, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.05, 0.1, 0.05)
+part(ws, 'Iceberg0_4', 96.45, -0.81, -3933.42, 12.64, 10.17, 8.67, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.03, 0.01, -0.02)
+part(ws, 'Iceberg1_0', -52.7, -1.2, -4129.66, 16.66, 7.48, 11.26, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.02, -0.05, -0.07)
+part(ws, 'Iceberg1_1', -53.85, -0.82, -4119.67, 17.1, 9.39, 10.74, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.0, -0.01, 0.0)
+part(ws, 'Iceberg1_2', -52.19, 0.35, -4118.28, 9.29, 10.82, 11.98, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.08, 0.14, 0.03)
+part(ws, 'Iceberg1_3', -57.21, -0.1, -4130.43, 13.59, 6.42, 16.84, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.12, -0.14, -0.04)
+part(ws, 'Iceberg1_4', -61.58, -1.45, -4129.73, 8.18, 11.66, 12.44, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.11, 0.08, 0.02)
+part(ws, 'Iceberg1_5', -55.79, 0.93, -4129.93, 12.53, 7.2, 11.12, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.12, -0.01, 0.05)
+part(ws, 'Iceberg2_0', 65.79, -0.5, -4127.84, 9.05, 8.4, 11.55, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.1, -0.09, -0.06)
+part(ws, 'Iceberg2_1', 54.17, -1.4, -4115.49, 8.06, 7.24, 17.5, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.05, -0.03, 0.06)
+part(ws, 'Iceberg2_2', 65.75, 0.69, -4121.21, 11.37, 8.11, 16.14, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.06, -0.14, 0.09)
+part(ws, 'Iceberg2_3', 52.54, -0.4, -4120.91, 8.94, 6.9, 14.02, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.07, -0.01, 0.09)
+part(ws, 'Iceberg2_4', 62.91, 0.01, -4126.31, 15.11, 7.02, 13.95, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.0, 0.07, 0.1)
+part(ws, 'Iceberg3_0', -83.17, 0.21, -4137.96, 12.2, 8.21, 16.74, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, 0.03, 0.09)
+part(ws, 'Iceberg3_1', -89.42, 0.79, -4123.81, 17.25, 9.99, 12.71, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.04, -0.07, 0.1)
+part(ws, 'Iceberg3_2', -98.1, -0.51, -4124.11, 16.16, 6.58, 12.98, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.07, 0.01, 0.12)
+part(ws, 'Iceberg3_3', -85.99, -0.05, -4136.44, 13.49, 6.55, 10.66, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.01, 0.15, 0.04)
+part(ws, 'Iceberg4_0', 49.99, 0.97, -4093.74, 11.96, 6.91, 16.12, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.02, 0.15, 0.09)
+part(ws, 'Iceberg4_1', 59.09, -1.07, -4101.25, 16.93, 11.62, 15.04, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.05, 0.04, -0.11)
+part(ws, 'Iceberg4_2', 51.11, -0.49, -4101.34, 17.45, 10.15, 8.25, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.09, 0.09, 0.03)
+part(ws, 'Iceberg4_3', 52.24, -0.54, -4095.66, 14.47, 9.25, 13.21, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.04, -0.02, -0.05)
+part(ws, 'Iceberg4_4', 51.41, -0.34, -4101.11, 16.2, 7.4, 15.5, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.09, 0.11, -0.03)
+part(ws, 'Iceberg5_0', -33.53, 0.97, -3927.13, 17.41, 10.82, 17.15, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.02, -0.14, 0.0)
+part(ws, 'Iceberg5_1', -47.13, 0.64, -3928.21, 9.09, 6.56, 13.29, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.04, -0.13, -0.11)
+part(ws, 'Iceberg5_2', -45.99, -0.97, -3928.18, 15.62, 9.48, 14.01, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.04, -0.07, -0.09)
+part(ws, 'Iceberg5_3', -43.93, -0.51, -3929.56, 11.21, 6.39, 16.69, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.06, -0.11, 0.06)
+part(ws, 'Iceberg5_4', -32.96, -1.37, -3931.56, 16.81, 8.91, 8.71, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, 0.05, 0.11, -0.01)
+part(ws, 'Iceberg5_5', -33.31, -1.19, -3922.46, 16.59, 7.36, 14.3, {225, 240, 250}, Enum.Material.Ice, 0.12, true, Enum.PartType.Block, -0.1, -0.05, -0.03)
+part(ws, 'Snow_0', 30.24, 0.5, -3982.02, 21.69, 0.15, 23.64, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Snow_1', 87.14, 0.5, -4056.07, 19.05, 0.15, 21.42, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Snow_2', -146.63, 0.5, -3866.17, 29.06, 0.15, 18.03, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Snow_3', -47.74, 0.5, -4109.92, 20.96, 0.15, 18.22, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Snow_4', -42.28, 0.5, -3930.25, 17.18, 0.15, 23.44, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Snow_5', -116.1, 0.5, -3951.45, 27.5, 0.15, 27.31, {245, 250, 255}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'Aurora_0', 174.89, 57.2, -3978.43, 91.66, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.15, -0.17, 0.0)
+part(ws, 'Aurora_1', 85.46, 53.18, -4087.33, 87.98, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.09, 0.24, -0.15)
+part(ws, 'Aurora_2', -117.01, 55.89, -3900.83, 71.33, 1.2, 6, {190, 140, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.07, -0.07, -0.0)
+part(ws, 'Aurora_3', 143.83, 66.22, -4011.51, 63.74, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.08, -0.29, -0.08)
+part(ws, 'Aurora_4', -118.3, 67.18, -3993.72, 59.5, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.07, -0.15, 0.1)
+part(ws, 'Aurora_5', -25.04, 67.02, -4137.46, 82.32, 1.2, 6, {190, 140, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.05, 0.24, 0.05)
+part(ws, 'Aurora_6', -3.52, 56.59, -3957.55, 64.23, 1.2, 6, {120, 255, 190}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, -0.18, 0.2, 0.17)
+part(ws, 'Aurora_7', -11.87, 56.03, -4087.18, 83.46, 1.2, 6, {140, 230, 255}, Enum.Material.Neon, 0.35, false, Enum.PartType.Wedge, 0.06, -0.1, -0.09)
+part(ws, 'IceCrystal_0', -31.78, -1.5, -3865.45, 0.61, 3.03, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.01, 0)
+part(ws, 'IceCrystal_1', -70.51, -1.5, -4083.99, 0.76, 3.16, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.36, 0)
+part(ws, 'IceCrystal_2', 51.93, -1.5, -4099.99, 1.04, 3.21, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.33, 0)
+part(ws, 'IceCrystal_3', 37.16, -1.5, -3873.38, 0.92, 2.64, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.2, 0)
+part(ws, 'IceCrystal_4', 29.35, -1.5, -3908.0, 0.64, 2.61, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.54, 0)
+part(ws, 'IceCrystal_5', -55.99, -1.5, -3988.18, 1.26, 4.3, 0.6, {170, 230, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.48, 0)
+part(ws, 'Bio_0', 156.71, -0.95, -5007.23, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_1', 1.22, -0.9, -5046.74, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_2', 72.55, -1.62, -5000.14, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_3', -145.77, -0.9, -5080.35, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_4', -105.3, -2.27, -4974.17, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_5', -28.86, -2.0, -4927.68, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_6', -131.7, -2.59, -4910.91, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_7', -29.57, -2.56, -5103.66, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_8', -106.52, -2.58, -5002.16, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_9', 41.11, -1.15, -4853.06, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_10', 156.38, -1.66, -5060.0, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_11', 5.27, -2.51, -5038.61, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_12', -71.51, -2.12, -5139.94, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_13', 88.39, -2.11, -4860.92, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_14', -73.15, -2.3, -5093.54, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_15', 63.67, -0.97, -5016.74, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_16', -132.9, -2.43, -5040.85, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_17', 114.83, -1.23, -5067.23, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_18', 45.55, -1.51, -4949.54, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_19', -117.35, -1.97, -5104.87, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_20', 95.24, -2.21, -5136.71, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_21', 65.76, -1.68, -4857.59, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_22', 152.69, -2.3, -4892.71, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_23', 8.4, -0.87, -5122.01, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_24', 77.89, -1.72, -5041.15, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_25', 125.96, -1.39, -4955.75, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_26', -112.18, -2.27, -5002.9, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_27', -52.4, -0.88, -5001.32, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_28', -9.74, -1.72, -5030.66, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_29', -55.6, -1.83, -4905.04, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_30', 126.16, -2.13, -5158.78, 0.4, 0.4, 0.4, {80, 160, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_31', -135.15, -1.93, -4855.79, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_32', -28.54, -1.11, -4976.73, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_33', 108.44, -1.64, -5054.69, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_34', -151.05, -1.46, -4932.07, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_35', -123.12, -2.09, -5122.57, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_36', -124.32, -1.16, -5139.53, 0.4, 0.4, 0.4, {90, 200, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_37', -22.89, -2.14, -4941.57, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_38', 126.78, -1.68, -4870.88, 0.4, 0.4, 0.4, {120, 255, 200}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'Bio_39', 105.23, -1.2, -4862.57, 0.4, 0.4, 0.4, {200, 140, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'AbyssPillar_0', -23.72, 0.68, -5145.38, 4.19, 14.6, 6.88, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'AbyssPillar_1', 99.52, -0.15, -4866.35, 6.82, 12.47, 4.19, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'AbyssPillar_2', -119.41, -1.58, -5003.58, 6.23, 11.98, 5.9, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'AbyssPillar_3', -109.82, -2.72, -4949.43, 5.05, 14.57, 6.24, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'AbyssPillar_4', 106.09, -0.56, -4898.94, 6.84, 16.73, 5.65, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'AbyssPillar_5', 1.21, 0.3, -4928.7, 4.85, 14.83, 4.75, {50, 52, 62}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder, 0, 0, 0)
 part(ws, 'Spine_0', -74.0, -2.2, -5010, 1.6, 1.6, 1.6, {235, 235, 240}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'Spine_1', -70.5, -1.96, -5010, 1.6, 1.6, 1.6, {235, 235, 240}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
 part(ws, 'Spine_2', -67.0, -1.78, -5010, 1.6, 1.6, 1.6, {235, 235, 240}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
@@ -740,38 +800,210 @@ part(ws, 'ChestLid', 40, -1.3, -5020, 3, 0.8, 2, {220, 180, 70}, Enum.Material.M
 local g = part(ws, 'ChestGlow', 40, -1.0, -5020, 1.2, 1.2, 1.2, {255, 220, 90}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
 light(g, {255, 210, 80}, 1.5, 30)
 end
+do
+-- Tavern walls (wood planks)
+part(ws, 'TavernWallN', -45, 5.0, 144, 22, 10, 1, {122, 92, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernWallS', -45, 5.0, 156, 22, 10, 1, {122, 92, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernWallW', -56, 5.0, 150, 1, 10, 12, {122, 92, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernWallE', -34, 5.0, 150, 1, 10, 12, {122, 92, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernFloor', -45, 0.6, 150, 20, 0.8, 10, {105, 78, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+flatRoof(ws, 'TavernRoof', -45, 150, 10.4, 24, 14, 1, {120, 50, 45}, {90, 40, 38})
+part(ws, 'TavernChimney', -36, 9.0, 144, 3, 4, 3, {150, 145, 140}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+part(ws, 'TavernDoor', -45, 2.0, 156.6, 4, 8, 0.4, {80, 55, 35}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+window(ws, 'TavernWin1', -52, 5.5, 145.6, 3, 3.4, {255, 200, 110})
+window(ws, 'TavernWin2', -38, 5.5, 145.6, 3, 3.4, {255, 200, 110})
+window(ws, 'TavernWin3', -52, 5.5, 154.6, 3, 3.4, {255, 200, 110})
+part(ws, 'TavernBar', -48, 2.0, 148, 8, 3, 2, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernCounter', -48, 3.4, 148, 8, 1, 2, {140, 105, 65}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernTable', -40, 2.0, 152, 6, 1, 4, {120, 90, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernChair1', -38, 1.0, 150, 2, 2, 2, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernChair2', -42, 1.0, 154, 2, 2, 2, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernShelf', -55, 5.0, 150, 1, 4, 8, {130, 95, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'TavernFireplace', -34.6, 3.0, 152, 1.4, 6, 5, {140, 140, 145}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+local fire = part(ws, 'TavernFire', -34.6, 2.4, 152, 1.6, 2.4, 1.6, {255, 140, 40}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
+light(fire, {255, 150, 60}, 1, 16)
+fx(fire, {190, 190, 195}, 5, 0.7, 1.4, 0.8, 2, 0.3, 0.8, 0.3, 1)
+local lamp = part(ws, 'TavernLamp', -42, 4.0, 150, 0.8, 0.8, 0.8, {255, 210, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
+light(lamp, {255, 200, 110}, 1, 18)
+local ts = part(ws, 'TavernSignBoard', -45, 8.0, 157.6, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+billboard(ts, 'THE RUSTY HOOK', {255, 200, 90}, 2)
+end
+do
+part(ws, 'ShackWallN', 10, 4.0, 160, 16, 8, 1, {110, 84, 56}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackWallS', 10, 4.0, 170, 16, 8, 1, {110, 84, 56}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackWallW', 3, 4.0, 165, 1, 8, 10, {110, 84, 56}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackWallE', 17, 4.0, 165, 1, 8, 10, {110, 84, 56}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackFloor', 10, 0.6, 165, 14, 0.8, 8, {100, 74, 48}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+flatRoof(ws, 'ShackRoof', 10, 165, 8.4, 18, 12, 0.9, {70, 100, 130}, {55, 80, 105})
+part(ws, 'ShackDoor', 10, 2.0, 170.6, 3, 6, 0.4, {80, 55, 35}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+window(ws, 'ShackWin1', 6, 4.5, 159.6, 2.6, 3, {255, 200, 110})
+window(ws, 'ShackWin2', 14, 4.5, 159.6, 2.6, 3, {255, 200, 110})
+part(ws, 'ShackPorch', 10, 0.4, 173, 12, 0.5, 6, {120, 90, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackPorchRoof', 10, 6.0, 173, 14, 0.5, 8, {70, 100, 130}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+part(ws, 'ShackPorchPost1', 4, 3.0, 173, 0.6, 6, 0.6, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackPorchPost2', 16, 3.0, 173, 0.6, 6, 0.6, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'ShackNet', 19.6, 3.0, 165, 0.3, 5, 7, {90, 130, 150}, Enum.Material.SmoothPlastic, 0.35, false, Enum.PartType.Block)
+local sl = part(ws, 'ShackLampHolder', 3, 4.5, 165, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+light(sl, {255, 200, 110}, 0.9, 16)
+part(ws, 'ShackLamp', 3, 4.5, 165, 0.7, 0.7, 0.7, {255, 210, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
+end
+do
+part(ws, 'HouseWallN', 42, 4.5, 128, 20, 9, 1, {130, 96, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HouseWallS', 42, 4.5, 138, 20, 9, 1, {130, 96, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HouseWallW', 33, 4.5, 133, 1, 9, 10, {130, 96, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HouseWallE', 51, 4.5, 133, 1, 9, 10, {130, 96, 60}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HouseFloor', 42, 0.6, 133, 18, 0.8, 8, {115, 84, 52}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+flatRoof(ws, 'HouseRoof', 42, 133, 9.4, 22, 12, 1, {160, 60, 50}, {120, 45, 40})
+part(ws, 'HouseChimney', 50, 8.0, 129, 2.6, 3.4, 2.6, {150, 145, 140}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+part(ws, 'HouseDoor', 42, 2.2, 138.6, 3.6, 7, 0.4, {85, 58, 36}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+window(ws, 'HouseWin1', 37, 5, 127.6, 2.8, 3.2, {255, 200, 110})
+window(ws, 'HouseWin2', 47, 5, 127.6, 2.8, 3.2, {255, 200, 110})
+part(ws, 'HouseBed', 46, 1.6, 130, 5, 2, 3.4, {200, 170, 140}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+blob(ws, 'HousePillow', 48, 2.7, 130, 1.6, 0.9, 1.2, {240, 235, 225}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'HouseTable', 38, 1.6, 136, 4, 1, 3, {120, 90, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HouseChair', 36, 0.8, 137, 1.6, 1.6, 1.6, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+local hl = part(ws, 'HouseLampG', 40, 3.6, 134, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+light(hl, {255, 200, 110}, 1, 18)
+part(ws, 'HouseLamp', 40, 3.6, 134, 0.8, 0.8, 0.8, {255, 210, 120}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
+part(ws, 'HousePorch', 42, 0.4, 141, 14, 0.5, 6, {120, 90, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HousePorchRoof', 42, 6.5, 141, 16, 0.5, 8, {160, 60, 50}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block)
+part(ws, 'HousePorchPost1', 35, 3.2, 141, 0.6, 6.4, 0.6, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'HousePorchPost2', 49, 3.2, 141, 0.6, 6.4, 0.6, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+end
+do
+part(ws, 'WellRing', -18, 1.0, 128, 4, 2, 4, {110, 110, 116}, Enum.Material.Rock, 0, true, Enum.PartType.Cylinder)
+part(ws, 'WellWater', -18, 0.8, 128, 3, 0.5, 3, {60, 140, 190}, Enum.Material.Glass, 0.4, false, Enum.PartType.Cylinder)
+part(ws, 'WellPost1', -20.4, 2.6, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'WellPost2', -15.6, 2.6, 128, 0.7, 5, 0.7, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'WellRoof', -18, 5.6, 128, 6, 0.4, 5, {130, 95, 55}, Enum.Material.Wood, 0, true, Enum.PartType.Block)
+part(ws, 'WellBucket', -18, 1.6, 128, 0.9, 1.1, 0.9, {140, 140, 145}, Enum.Material.Metal, 0, true, Enum.PartType.Cylinder)
+end
+part(ws, 'FencePost_0', -70, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_1', -50, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_2', -30, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_3', -10, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_4', 10, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_5', 30, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_6', 50, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_7', 70, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FencePost_8', 90, 1.0, 190, 0.8, 3.4, 0.8, {110, 80, 50}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_0', -60, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_1', -40, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_2', -20, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_3', 0, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_4', 20, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_5', 40, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_6', 60, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FenceRail_7', 80, 1.9, 190, 20, 0.4, 0.4, {100, 70, 45}, Enum.Material.Wood, 0, true, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'FishSpotFloat_0', -6, 0.2, 44, 1.6, 0.4, 1.6, {90, 200, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'FishSpotPost_0', -6, -0.6, 44, 0.5, 2, 0.5, {100, 70, 45}, Enum.Material.Wood, 0, false, Enum.PartType.Block, 0, 0, 0)
+do local b = part(ws, 'FishSpotSign_0', -6, 1.4, 44, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+billboard(b, 'CATCH HERE', {90, 200, 170}, 1.2)
+end
+part(ws, 'FishSpotFloat_1', 0, 0.2, 44, 1.6, 0.4, 1.6, {90, 200, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'FishSpotPost_1', 0, -0.6, 44, 0.5, 2, 0.5, {100, 70, 45}, Enum.Material.Wood, 0, false, Enum.PartType.Block, 0, 0, 0)
+do local b = part(ws, 'FishSpotSign_1', 0, 1.4, 44, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+billboard(b, 'CATCH HERE', {90, 200, 170}, 1.2)
+end
+part(ws, 'FishSpotFloat_2', 6, 0.2, 44, 1.6, 0.4, 1.6, {90, 200, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+part(ws, 'FishSpotPost_2', 6, -0.6, 44, 0.5, 2, 0.5, {100, 70, 45}, Enum.Material.Wood, 0, false, Enum.PartType.Block, 0, 0, 0)
+do local b = part(ws, 'FishSpotSign_2', 6, 1.4, 44, 1, 1, 1, {255,255,255}, Enum.Material.SmoothPlastic, 1, false, Enum.PartType.Block)
+billboard(b, 'CATCH HERE', {90, 200, 170}, 1.2)
+end
+part(ws, 'PineTrunk_0', -127.29, -1.6, -4060.35, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_0_0', -127.29, 1.6, -4060.35, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_0_1', -127.29, 3.8, -4060.35, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_0_2', -127.29, 6.0, -4060.35, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_1', -83.69, -1.6, -3962.14, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_1_0', -83.69, 1.6, -3962.14, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_1_1', -83.69, 3.8, -3962.14, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_1_2', -83.69, 6.0, -3962.14, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_2', -85.35, -1.6, -4035.27, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_2_0', -85.35, 1.6, -4035.27, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_2_1', -85.35, 3.8, -4035.27, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_2_2', -85.35, 6.0, -4035.27, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_3', 19.88, -1.6, -4016.6, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_3_0', 19.88, 1.6, -4016.6, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_3_1', 19.88, 3.8, -4016.6, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_3_2', 19.88, 6.0, -4016.6, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_4', -54.34, -1.6, -3851.65, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_4_0', -54.34, 1.6, -3851.65, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_4_1', -54.34, 3.8, -3851.65, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_4_2', -54.34, 6.0, -3851.65, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_5', -24.73, -1.6, -4052.06, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_5_0', -24.73, 1.6, -4052.06, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_5_1', -24.73, 3.8, -4052.06, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_5_2', -24.73, 6.0, -4052.06, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_6', 133.8, -1.6, -4107.65, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_6_0', 133.8, 1.6, -4107.65, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_6_1', 133.8, 3.8, -4107.65, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_6_2', 133.8, 6.0, -4107.65, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_7', -11.55, -1.6, -4070.34, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_7_0', -11.55, 1.6, -4070.34, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_7_1', -11.55, 3.8, -4070.34, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_7_2', -11.55, 6.0, -4070.34, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_8', 65.64, -1.6, -4146.53, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_8_0', 65.64, 1.6, -4146.53, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_8_1', 65.64, 3.8, -4146.53, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_8_2', 65.64, 6.0, -4146.53, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_9', 24.67, -1.6, -3854.69, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_9_0', 24.67, 1.6, -3854.69, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_9_1', 24.67, 3.8, -3854.69, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_9_2', 24.67, 6.0, -3854.69, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_10', 0.43, -1.6, -3930.19, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_10_0', 0.43, 1.6, -3930.19, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_10_1', 0.43, 3.8, -3930.19, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_10_2', 0.43, 6.0, -3930.19, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_11', -39.21, -1.6, -3993.42, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_11_0', -39.21, 1.6, -3993.42, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_11_1', -39.21, 3.8, -3993.42, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_11_2', -39.21, 6.0, -3993.42, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_12', -43.87, -1.6, -4018.8, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_12_0', -43.87, 1.6, -4018.8, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_12_1', -43.87, 3.8, -4018.8, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_12_2', -43.87, 6.0, -4018.8, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PineTrunk_13', 92.34, -1.6, -4108.68, 0.6, 3, 0.6, {90, 62, 40}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0, 0, 0)
+blob(ws, 'Pine_13_0', 92.34, 1.6, -4108.68, 3.6, 2.2, 3.6, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_13_1', 92.34, 3.8, -4108.68, 2.7, 1.8, 2.7, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
+blob(ws, 'Pine_13_2', 92.34, 6.0, -4108.68, 1.8, 1.4, 1.8, {34, 96, 48}, Enum.Material.SmoothPlastic, 0, false)
 part(ws, 'IsleBase', 800, -1.0, -3000, 52, 2, 42, {200, 180, 140}, Enum.Material.SmoothPlastic, 0, true, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'IsleSand1', 800, 0.48, -3000, 40, 0.15, 32, {235, 218, 168}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
 part(ws, 'IsleSand2', 800, 0.53, -3000, 30, 0.2, 24, {235, 218, 168}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'IsleRock_0', 798.8, 2.04, -2999.47, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.14, -0.12, -0.15)
-part(ws, 'IsleRock_1', 799.77, 1.51, -2998.67, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.04, -0.12, -0.05)
-part(ws, 'IsleRock_2', 799.25, 1.15, -3001.83, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.09, -0.01, 0.14)
-part(ws, 'IsleRock_3', 800.78, 1.88, -3000.59, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.03, -0.19, 0.14)
-part(ws, 'IsleRock_4', 800.33, 1.98, -2999.7, 2.5, 2, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.13, -0.11, 0.07)
-part(ws, 'PalmTrunk_H0', 798.15, 3.4, -3007.3, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.07, 0, -0.03)
-part(ws, 'PalmLeaf_H0_0', 800.96, 5.5, -3005.8, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_H0_1', 799.68, 5.5, -3002.55, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_H0_2', 796.21, 5.5, -3005.22, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_H0_3', 798.52, 5.5, -3008.65, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_H0_4', 799.59, 5.5, -3010.22, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_H0', 801.85, 4.7, -3005.17, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_H0', 803.94, 4.7, -3007.59, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_H1', 793.97, 3.4, -3003.1, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.08, 0, -0.04)
-part(ws, 'PalmLeaf_H1_0', 796.55, 5.5, -2997.73, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_H1_1', 798.54, 5.5, -2997.87, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_H1_2', 796.48, 5.5, -2999.26, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_H1_3', 792.41, 5.5, -3000.83, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_H1_4', 795.6, 5.5, -3000.87, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_H1', 797.5, 4.7, -3001.58, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_H1', 798.48, 4.7, -3000.52, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmTrunk_H2', 796.28, 3.4, -3003.73, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.06, 0, -0.05)
-part(ws, 'PalmLeaf_H2_0', 798.65, 5.5, -3007.74, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 1.57)
-part(ws, 'PalmLeaf_H2_1', 797.38, 5.5, -3005.04, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, 0.31)
-part(ws, 'PalmLeaf_H2_2', 793.76, 5.5, -3003.28, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -0.95)
-part(ws, 'PalmLeaf_H2_3', 798.63, 5.5, -3009.85, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -2.21)
-part(ws, 'PalmLeaf_H2_4', 799.21, 5.5, -3008.18, 3.2, 0.35, 0.9, {58, 138, 60}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Wedge, 0.5, 0, -3.47)
-part(ws, 'PalmNut1_H2', 799.09, 4.7, -3003.45, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
-part(ws, 'PalmNut2_H2', 800.5, 4.7, -3008.15, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+blob(ws, 'IsleRock_0', 800.13, 1.12, -3000.71, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.14, -0.25, 0.01)
+blob(ws, 'IsleRock_1', 800.82, 2.16, -3000.95, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.07, -0.06, -0.14)
+blob(ws, 'IsleRock_2', 799.45, 1.39, -3000.36, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, 0.1, -0.21, 0.07)
+blob(ws, 'IsleRock_3', 800.16, 1.63, -3001.52, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.1, -0.17, -0.21)
+blob(ws, 'IsleRock_4', 801.64, 1.58, -2998.31, 2.5, 1.64, 2.5, {110, 110, 118}, Enum.Material.Rock, 0, true, -0.14, -0.28, -0.11)
+part(ws, 'PalmTrunk_H0', 800.06, 3.4, -3000.59, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.0, 0, -0.02)
+blob(ws, 'PalmCanopy_H0_0', 802.26, 5.4, -3000.59, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_H0_1', 801.16, 5.88, -2998.68, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_H0_2', 798.95, 5.66, -2998.69, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_H0_3', 797.86, 5.06, -3000.61, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_H0_4', 798.99, 4.96, -3002.51, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_H0_5', 801.19, 5.51, -3002.48, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_H0', 800.06, 5.8, -3000.59, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_H0', 799.66, 4.9, -3000.29, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_H0', 800.46, 4.9, -3000.89, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_H1', 800.19, 3.4, -2997.47, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.03, 0, -0.07)
+blob(ws, 'PalmCanopy_H1_0', 802.39, 5.4, -2997.47, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_H1_1', 801.28, 5.88, -2995.57, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_H1_2', 799.08, 5.66, -2995.58, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_H1_3', 797.99, 5.06, -2997.49, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_H1_4', 799.11, 4.96, -2999.39, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_H1_5', 801.32, 5.51, -2999.36, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_H1', 800.19, 5.8, -2997.47, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_H1', 799.79, 4.9, -2997.17, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_H1', 800.59, 4.9, -2997.77, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmTrunk_H2', 800.58, 3.4, -3007.74, 0.7, 6, 0.7, {122, 82, 44}, Enum.Material.Wood, 0, false, Enum.PartType.Cylinder, 0.02, 0, -0.07)
+blob(ws, 'PalmCanopy_H2_0', 802.78, 5.4, -3007.74, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 1.57)
+blob(ws, 'PalmCanopy_H2_1', 801.68, 5.88, -3005.83, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, 0.52)
+blob(ws, 'PalmCanopy_H2_2', 799.47, 5.66, -3005.84, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -0.53)
+blob(ws, 'PalmCanopy_H2_3', 798.38, 5.06, -3007.76, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -1.58)
+blob(ws, 'PalmCanopy_H2_4', 799.51, 4.96, -3009.66, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -2.63)
+blob(ws, 'PalmCanopy_H2_5', 801.71, 5.51, -3009.63, 3.4, 1.1, 2.0, {46, 138, 58}, Enum.Material.SmoothPlastic, 0, false, 0, 0, -3.68)
+blob(ws, 'PalmTop_H2', 800.58, 5.8, -3007.74, 2.6, 1.4, 2.6, {52, 150, 62}, Enum.Material.SmoothPlastic, 0, false)
+part(ws, 'PalmNut1_H2', 800.18, 4.9, -3007.44, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
+part(ws, 'PalmNut2_H2', 800.98, 4.9, -3008.04, 0.4, 0.4, 0.4, {90, 62, 30}, Enum.Material.SmoothPlastic, 0, false, Enum.PartType.Ball, 0, 0, 0)
 do
 local fr = part(ws, 'FloatRock', 830, 8, -2980, 8, 4, 8, {110, 108, 112}, Enum.Material.Rock, 0, true, Enum.PartType.Ball)
 part(ws, 'IsleFall', 830, 3, -2980, 1.6, 9, 3, {170, 220, 240}, Enum.Material.Glass, 0.45, false, Enum.PartType.Block)
@@ -784,48 +1016,48 @@ part(ws, 'IsleChestLid', 800, 0.7, -2990, 3, 0.8, 2, {220, 180, 70}, Enum.Materi
 local g = part(ws, 'IsleChestGlow', 800, 0.9, -2990, 1.2, 1.2, 1.2, {255, 220, 90}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
 light(g, {255, 210, 80}, 1.5, 30)
 end
-part(ws, 'IsleFog_0', 810.14, 3.17, -2988.74, 21.92, 2, 18.29, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'IsleFog_1', 795.79, 5.4, -3001.15, 29.73, 2, 16.91, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'IsleFog_2', 818.06, 2.1, -2991.17, 21.58, 2, 15.14, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
-part(ws, 'GrottoWall_0', 874.37, -1, -1990.28, 12.21, 8.42, 14.93, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0.13)
-part(ws, 'GrottoWall_1', 859.54, -1, -1954.4, 14.09, 13.31, 12.33, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0.65)
-part(ws, 'GrottoWall_2', 828.76, -1, -1930.73, 12.36, 12.92, 15.9, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 1.18)
-part(ws, 'GrottoWall_3', 790.28, -1, -1925.63, 12.04, 9.41, 15.39, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 1.7)
-part(ws, 'GrottoWall_4', 754.4, -1, -1940.46, 14.48, 13.52, 11.06, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 2.22)
-part(ws, 'GrottoWall_5', 730.73, -1, -1971.24, 14.86, 8.29, 14.27, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 2.75)
-part(ws, 'GrottoWall_6', 725.63, -1, -2009.72, 10.88, 13.05, 12.39, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 3.27)
-part(ws, 'GrottoWall_7', 740.46, -1, -2045.6, 14.45, 9.83, 10.12, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 3.8)
-part(ws, 'GrottoWall_8', 771.24, -1, -2069.27, 12.07, 13.83, 13.78, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 4.32)
-part(ws, 'GrottoWall_9', 809.72, -1, -2074.37, 11.33, 8.11, 15.07, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 4.84)
-part(ws, 'GrottoWall_10', 845.6, -1, -2059.54, 10.22, 8.41, 14.94, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 5.37)
-part(ws, 'GrottoWall_11', 869.27, -1, -2028.76, 11.96, 10.19, 11.97, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 5.89)
-part(ws, 'Stalactite_0', 823.93, 6.81, -2026.5, 1.27, 5.61, 1.94, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.45)
-part(ws, 'Stalactite_1', 822.95, 4.6, -1980.4, 1.26, 6.41, 1.52, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.02)
-part(ws, 'Stalactite_2', 774.79, 6.01, -2020.92, 1.0, 6.98, 1.85, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.09)
-part(ws, 'Stalactite_3', 825.47, 6.77, -2034.71, 1.62, 4.43, 1.44, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.17)
-part(ws, 'Stalactite_4', 833.62, 5.25, -1969.83, 1.79, 4.85, 1.27, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.16)
-part(ws, 'Stalactite_5', 762.18, 7.84, -1994.18, 1.9, 6.41, 1.87, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.12)
-part(ws, 'Stalactite_6', 772.12, 6.43, -2030.07, 1.9, 6.84, 1.09, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.45)
-part(ws, 'Stalactite_7', 821.71, 6.84, -2036.79, 1.19, 5.67, 1.21, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.15)
-part(ws, 'Crystal_0', 786.43, -2.6, -1963.91, 0.99, 2.02, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.48, 0)
-part(ws, 'Crystal_1', 755.24, -2.6, -1976.6, 0.78, 3.71, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.94, 0)
-part(ws, 'Crystal_2', 827.49, -2.6, -1963.9, 1.03, 2.29, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.02, 0)
-part(ws, 'Crystal_3', 829.73, -2.6, -2002.69, 1.18, 3.14, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.18, 0)
-part(ws, 'Crystal_4', 769.22, -2.6, -1999.93, 1.1, 3.34, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.88, 0)
-part(ws, 'Crystal_5', 796.71, -2.6, -2036.83, 0.89, 2.69, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.48, 0)
-part(ws, 'Crystal_6', 847.3, -2.6, -2007.88, 1.09, 2.03, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.62, 0)
-part(ws, 'Crystal_7', 779.0, -2.6, -1980.79, 1.04, 3.01, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.83, 0)
+part(ws, 'IsleFog_0', 816.49, 3.7, -2994.62, 23.08, 2, 15.82, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'IsleFog_1', 819.0, 2.75, -2996.67, 28.27, 2, 16.89, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'IsleFog_2', 791.03, 3.61, -2989.61, 24.13, 2, 19.84, {235, 245, 250}, Enum.Material.SmoothPlastic, 0.7, false, Enum.PartType.Block, 0, 0, 0)
+part(ws, 'GrottoWall_0', 874.37, -1, -1990.28, 15.55, 10.1, 12.63, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0.13)
+part(ws, 'GrottoWall_1', 859.54, -1, -1954.4, 10.68, 10.98, 15.77, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 0.65)
+part(ws, 'GrottoWall_2', 828.76, -1, -1930.73, 11.68, 10.33, 11.78, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 1.18)
+part(ws, 'GrottoWall_3', 790.28, -1, -1925.63, 11.02, 8.88, 15.88, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 1.7)
+part(ws, 'GrottoWall_4', 754.4, -1, -1940.46, 15.62, 9.11, 15.01, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 2.22)
+part(ws, 'GrottoWall_5', 730.73, -1, -1971.24, 13.29, 8.77, 15.91, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 2.75)
+part(ws, 'GrottoWall_6', 725.63, -1, -2009.72, 14.93, 8.13, 10.94, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 3.27)
+part(ws, 'GrottoWall_7', 740.46, -1, -2045.6, 12.2, 11.75, 14.58, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 3.8)
+part(ws, 'GrottoWall_8', 771.24, -1, -2069.27, 14.82, 10.66, 10.38, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 4.32)
+part(ws, 'GrottoWall_9', 809.72, -1, -2074.37, 12.92, 11.1, 12.96, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 4.84)
+part(ws, 'GrottoWall_10', 845.6, -1, -2059.54, 11.52, 11.45, 15.77, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 5.37)
+part(ws, 'GrottoWall_11', 869.27, -1, -2028.76, 14.64, 8.72, 13.56, {95, 95, 105}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0, 0, 5.89)
+part(ws, 'Stalactite_0', 803.69, 7.61, -2013.95, 1.49, 5.23, 1.01, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.13)
+part(ws, 'Stalactite_1', 841.83, 5.17, -1997.37, 1.91, 6.18, 1.66, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, 0.18)
+part(ws, 'Stalactite_2', 818.44, 6.8, -2008.01, 1.06, 5.64, 1.49, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.16)
+part(ws, 'Stalactite_3', 761.27, 7.57, -2021.48, 1.3, 5.56, 1.07, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.05)
+part(ws, 'Stalactite_4', 801.87, 7.73, -2008.35, 1.28, 6.46, 1.14, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.43)
+part(ws, 'Stalactite_5', 762.76, 4.68, -2032.6, 1.05, 6.3, 1.46, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.47)
+part(ws, 'Stalactite_6', 802.79, 5.9, -2000.75, 1.51, 6.99, 1.34, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.2)
+part(ws, 'Stalactite_7', 797.75, 4.35, -2035.0, 1.94, 5.16, 1.89, {110, 108, 118}, Enum.Material.Rock, 0, false, Enum.PartType.Wedge, 0, 0, -0.32)
+part(ws, 'Crystal_0', 823.97, -2.6, -1950.11, 0.83, 3.11, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.86, 0)
+part(ws, 'Crystal_1', 781.43, -2.6, -2037.6, 1.21, 2.53, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.58, 0)
+part(ws, 'Crystal_2', 782.43, -2.6, -2029.18, 1.14, 3.13, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.21, 0)
+part(ws, 'Crystal_3', 827.21, -2.6, -1971.37, 1.39, 3.21, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.92, 0)
+part(ws, 'Crystal_4', 769.54, -2.6, -2027.6, 0.82, 3.89, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 1.11, 0)
+part(ws, 'Crystal_5', 797.87, -2.6, -2027.36, 1.21, 2.68, 0.7, {170, 130, 255}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.62, 0)
+part(ws, 'Crystal_6', 779.58, -2.6, -1967.58, 1.1, 3.04, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 0.52, 0)
+part(ws, 'Crystal_7', 780.91, -2.6, -1956.88, 1.28, 4.08, 0.7, {120, 255, 170}, Enum.Material.Neon, 0, false, Enum.PartType.Wedge, 0, 2.87, 0)
 part(ws, 'GrottoPool', 800, 0.02, -2000, 60, 0.3, 60, {30, 90, 130}, Enum.Material.Glass, 0.6, false, Enum.PartType.Block, 0, 0, 0)
 do
 local c = part(ws, 'GrottoChest', 800, -2.4, -1990, 3, 2, 2, {200, 160, 60}, Enum.Material.Metal, 0, true, Enum.PartType.Block)
 local g = part(ws, 'GrottoGlow', 800, -1.0, -1990, 1.2, 1.2, 1.2, {150, 255, 160}, Enum.Material.Neon, 0, false, Enum.PartType.Ball)
 light(g, {120, 255, 170}, 1.5, 30)
 end
-part(ws, 'Rock_800_-2000_0', 805.34, 1.25, -2010.04, 2.31, 2.96, 4.68, {100, 100, 110}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.0, -0.02, 0.09)
-part(ws, 'Rock_800_-2000_1', 803.5, 1.27, -1988.49, 2.06, 3.69, 4.75, {100, 100, 110}, Enum.Material.Rock, 0, true, Enum.PartType.Block, 0.07, 0.02, 0.02)
-part(ws, 'Rock_800_-2000_2', 790.12, -1.13, -2008.57, 3.79, 2.09, 4.83, {100, 100, 110}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.08, -0.17, -0.05)
-part(ws, 'Rock_800_-2000_3', 786.8, -0.43, -1985.35, 2.36, 3.79, 4.64, {100, 100, 110}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.07, -0.02, -0.01)
-part(ws, 'Rock_800_-2000_4', 800.18, -0.09, -2000.3, 4.0, 4.77, 3.4, {100, 100, 110}, Enum.Material.Rock, 0, true, Enum.PartType.Block, -0.13, 0.16, 0.11)
+blob(ws, 'Rock_800_-2000_0', 812.22, 0.13, -2011.3, 4.64, 2.9, 4.29, {100, 100, 110}, Enum.Material.Rock, 0, true, -0.11, 0.07, -0.08)
+blob(ws, 'Rock_800_-2000_1', 798.72, 1.12, -1989.42, 2.22, 3.56, 4.83, {100, 100, 110}, Enum.Material.Rock, 0, true, 0.08, -0.26, -0.18)
+blob(ws, 'Rock_800_-2000_2', 807.74, 0.82, -2012.9, 4.13, 3.2, 3.19, {100, 100, 110}, Enum.Material.Rock, 0, true, 0.09, 0.17, 0.11)
+blob(ws, 'Rock_800_-2000_3', 791.48, 0.27, -1986.6, 5.0, 2.97, 3.08, {100, 100, 110}, Enum.Material.Rock, 0, true, -0.22, -0.02, -0.21)
+blob(ws, 'Rock_800_-2000_4', 815.59, 0.02, -2005.16, 4.32, 2.51, 3.74, {100, 100, 110}, Enum.Material.Rock, 0, true, -0.2, 0.19, 0.01)
 
 -- Lighting
 local lighting = Instance.new('Lighting')
@@ -838,6 +1070,33 @@ lighting.FogEnd = 5200
 lighting.Ambient = Color3.fromRGB(115, 125, 135)
 lighting.OutdoorAmbient = Color3.fromRGB(135, 145, 155)
 lighting.Brightness = 1.2
+-- Atmosphere FX
+local cce = Instance.new('ColorCorrectionEffect')
+cce.Brightness = 0.02
+cce.Contrast = 0.06
+cce.Saturation = 0.12
+cce.Parent = lighting
+local bloom = Instance.new('BloomEffect')
+bloom.Intensity = 0.35
+bloom.Size = 24
+bloom.Threshold = 0.85
+bloom.Parent = lighting
+local sun = Instance.new('SunRaysEffect')
+sun.Intensity = 0.12
+sun.Spread = 0.6
+sun.Parent = lighting
+local clouds = Instance.new('Clouds')
+clouds.Density = 0.45
+clouds.Color = Color3.fromRGB(245, 242, 235)
+clouds.Parent = lighting
+local atmo = Instance.new('Atmosphere')
+atmo.Density = 0.32
+atmo.Offset = 0.4
+atmo.Color = Color3.fromRGB(150, 185, 215)
+atmo.Decay = Color3.fromRGB(90, 130, 170)
+atmo.Glare = 0.25
+atmo.Haze = 1.2
+atmo.Parent = lighting
 
 -- ===== Script tree ===== --
 local containerCls = {
@@ -2164,8 +2423,10 @@ inst_ServerScriptService_Services_AmbienceService.Source = [===[--!strict
 --[[
 	Tidebound — AmbienceService
 	Cheap "living world" on the server (no client involvement):
-	- gently bobs every BuoyBall_* part
+	- bobs every BuoyBall_* part
 	- spawns and orbits seagulls over each zone
+	- ANIMATED NPCs: Old Salt casts his rod; two villagers walk the village
+	- FISH SCHOOLS: fish that visibly swim in every zone + near the dock
 	All parts are anchored; updates are low-frequency. Zero physics cost.
 	Phase 5 | AI-assisted | 2026-08-03
 ]]
@@ -2179,6 +2440,8 @@ local ZONES = { "sunshall", "whisper", "drop", "ember", "frost", "abyss", "hidde
 
 local buoys: { BasePart } = {}
 local gulls: { { part: BasePart, center: Vector3, speed: number, radius: number, height: number, offset: number } } = {}
+local npcs: { { parts: { BasePart }, path: { Vector3 }, speed: number, phase: number } } = {}
+local fishSchools: { { parts: { BasePart }, center: Vector3, radius: number, speed: number, phase: number, depth: number, color: Color3 } } = {}
 
 local function makeGull(name: string, parent: Instance): BasePart
 	local gull = Instance.new("Part")
@@ -2192,7 +2455,6 @@ local function makeGull(name: string, parent: Instance): BasePart
 	gull.Color = Color3.fromRGB(240, 240, 246)
 	gull.Shape = Enum.PartType.Block
 	gull.Parent = parent
-	-- wing accent (dark tip)
 	local wing = Instance.new("WedgePart")
 	wing.Name = "Wing"
 	wing.Anchored = true
@@ -2206,6 +2468,88 @@ local function makeGull(name: string, parent: Instance): BasePart
 	return gull
 end
 
+-- Build a simple fish model (smooth body + tail fin)
+local function makeFish(name: string, parent: Instance, color: Color3): BasePart
+	local body = Instance.new("Part")
+	body.Name = name
+	body.Anchored = true
+	body.CanCollide = false
+	body.CanQuery = false
+	body.CanTouch = false
+	body.Size = Vector3.new(1.6, 0.7, 0.5)
+	body.Material = Enum.Material.SmoothPlastic
+	body.Color = color
+	body.Parent = parent
+	local mesh = Instance.new("SpecialMesh")
+	mesh.MeshType = Enum.MeshType.Sphere
+	mesh.Parent = body
+	local tail = Instance.new("WedgePart")
+	tail.Name = "Tail"
+	tail.Anchored = true
+	tail.CanCollide = false
+	tail.CanQuery = false
+	tail.Size = Vector3.new(0.7, 0.5, 0.12)
+	tail.Material = Enum.Material.SmoothPlastic
+	tail.Color = color:Lerp(Color3.new(0.4, 0.4, 0.4), 0.3)
+	tail.CFrame = CFrame.new(-1.1, 0, 0) * CFrame.Angles(0, math.rad(90), 0)
+	tail.Parent = body
+	return body
+end
+
+-- Build a simple cloaked villager NPC (no legs needed — cloak covers)
+local function makeVillager(name: string, parent: Instance, robeColor: Color3): { BasePart }
+	local cloak = Instance.new("Part")
+	cloak.Name = name .. "_Cloak"
+	cloak.Anchored = true
+	cloak.CanCollide = false
+	cloak.CanQuery = false
+	cloak.Size = Vector3.new(1.6, 3.2, 1.2)
+	cloak.Material = Enum.Material.SmoothPlastic
+	cloak.Color = robeColor
+	cloak.Shape = Enum.PartType.Cylinder
+	cloak.Parent = parent
+	local head = Instance.new("Part")
+	head.Name = name .. "_Head"
+	head.Anchored = true
+	head.CanCollide = false
+	head.CanQuery = false
+	head.Size = Vector3.new(1.1, 1.1, 1.1)
+	head.Material = Enum.Material.SmoothPlastic
+	head.Color = Color3.fromRGB(255, 220, 190)
+	head.Shape = Enum.PartType.Ball
+	head.Parent = parent
+	local hat = Instance.new("Part")
+	hat.Name = name .. "_Hat"
+	hat.Anchored = true
+	hat.CanCollide = false
+	hat.CanQuery = false
+	hat.Size = Vector3.new(1.4, 0.5, 1.4)
+	hat.Material = Enum.Material.SmoothPlastic
+	hat.Color = Color3.fromRGB(70, 70, 78)
+	hat.Shape = Enum.PartType.Cylinder
+	hat.Parent = parent
+	-- left/right arms (swing while walking)
+	local armL = Instance.new("Part")
+	armL.Name = name .. "_ArmL"
+	armL.Anchored = true
+	armL.CanCollide = false
+	armL.CanQuery = false
+	armL.Size = Vector3.new(0.5, 1.6, 0.5)
+	armL.Material = Enum.Material.SmoothPlastic
+	armL.Color = robeColor
+	armL.Parent = parent
+	local armR = Instance.new("Part")
+	armR.Name = name .. "_ArmR"
+	armR.Anchored = true
+	armR.CanCollide = false
+	armR.CanQuery = false
+	armR.Size = Vector3.new(0.5, 1.6, 0.5)
+	armR.Material = Enum.Material.SmoothPlastic
+	armR.Color = robeColor
+	armR.Parent = parent
+	return { cloak, head, hat, armL, armR }
+end
+
 function AmbienceService:Start()
 	task.spawn(function()
 		task.wait(3) -- let the world settle
@@ -2217,7 +2561,7 @@ function AmbienceService:Start()
 			end
 		end
 
-		-- Spawn gulls per zone
+		-- Gulls per zone
 		for _, zid in ipairs(ZONES) do
 			local region = Workspace:FindFirstChild("ZoneRegion_" .. zid) :: BasePart?
 			if region then
@@ -2236,20 +2580,123 @@ function AmbienceService:Start()
 			end
 		end
 
+		-- Fish schools (every zone + dock)
+		local fishColors = {
+			{ 90, 190, 220 }, { 230, 160, 90 }, { 160, 220, 140 }, { 220, 130, 170 },
+			{ 150, 160, 220 }, { 240, 210, 110 }, { 120, 200, 180 }, { 200, 150, 220 },
+		}
+		local spots = { { 0, 30, "Dock" } }
+		for _, zid in ipairs(ZONES) do
+			local region = Workspace:FindFirstChild("ZoneRegion_" .. zid) :: BasePart?
+			if region then
+				local center = region:GetPivot().Position
+				table.insert(spots, { center.X, center.Z, zid })
+			end
+		end
+		for si, spot in ipairs(spots) do
+			local school = { parts = {}, center = Vector3.new(spot[1], -1.6, spot[2]), radius = 26 + (si % 3) * 8, speed = 0.35 + (si % 4) * 0.12, phase = si * 1.7, depth = -1.6, color = Color3.fromRGB(fishColors[(si - 1) % 8 + 1][1], fishColors[(si - 1) % 8 + 1][2], fishColors[(si - 1) % 8 + 1][3]) }
+			for f = 1, 8 do
+				local fish = makeFish("Fish_" .. spot[3] .. "_" .. f, Workspace, school.color)
+				fish.CFrame = CFrame.new(school.center.X, school.center.Y, school.center.Z)
+				table.insert(school.parts, fish)
+			end
+			table.insert(fishSchools, school)
+		end
+
+		-- Animated NPCs
+		-- Old Salt: casting loop (rod swings + slight bob)
+		local saltBody = Workspace:FindFirstChild("OldSaltBody") :: BasePart?
+		local saltRod = Workspace:FindFirstChild("OldSaltRod") :: BasePart?
+		if saltBody then
+			table.insert(npcs, { parts = { saltBody, saltRod or saltBody }, path = {}, speed = 0, phase = 0 })
+		end
+
+		-- Villagers walking the village path
+		local villagerPaths = {
+			{ Vector3.new(0, 1.2, 55), Vector3.new(-20, 1.2, 72), Vector3.new(-45, 1.4, 100), Vector3.new(-45, 1.6, 140) },
+			{ Vector3.new(12, 1.2, 84), Vector3.new(42, 1.4, 118), Vector3.new(42, 1.6, 133) },
+		}
+		local robeColors = { Color3.fromRGB(70, 110, 160), Color3.fromRGB(150, 90, 60) }
+		for i, path in ipairs(villagerPaths) do
+			local parts = makeVillager("Villager" .. i, Workspace, robeColors[i])
+			table.insert(npcs, { parts = parts, path = path, speed = 2.2 + i * 0.4, phase = i * 3.1 })
+		end
+
 		-- Living loop
 		local t = 0
 		while true do
-			task.wait(0.5)
-			t += 0.5
+			task.wait(0.25)
+			t += 0.25
+
+			-- Buoys bob
 			for _, b in buoys do
 				local pos = b:GetPivot().Position
 				b:PivotTo(CFrame.new(pos.X, pos.Y + math.sin(t * 1.7 + pos.X * 0.05) * 0.35, pos.Z))
 			end
+
+			-- Gulls orbit
 			for _, g in gulls do
 				local a = t * g.speed + g.offset
 				local pos = g.center + Vector3.new(math.cos(a) * g.radius, g.height + math.sin(a * 0.6) * 2.5, math.sin(a) * g.radius)
-				local look = CFrame.lookAt(pos, g.center + Vector3.new(0, g.height - 2, 0))
-				g.part:PivotTo(look)
+				g.part:PivotTo(CFrame.lookAt(pos, g.center + Vector3.new(0, g.height - 2, 0)))
+			end
+
+			-- Old Salt casts
+			if #npcs > 0 and npcs[1].parts[2] then
+				local rod = npcs[1].parts[2]
+				local swing = math.sin(t * 2.4) * 0.9
+				local base = CFrame.new(-18.4, 1.2, 70.8)
+				rod:PivotTo(base * CFrame.Angles(0, 0, 0.6 + swing * 0.5))
+				npcs[1].parts[1]:PivotTo(CFrame.new(-20, 0.05 + math.sin(t * 2.4) * 0.06, 70))
+			end
+
+			-- Villagers walk
+			for i = 2, #npcs do
+				local n = npcs[i]
+				local path = n.path
+				if #path > 1 then
+					local tt = (t * n.speed * 0.05 + n.phase) % 1
+					local seg = tt * (#path - 1)
+					local idx = math.floor(seg) + 1
+					local frac = seg - math.floor(seg)
+					local a = path[math.min(idx, #path)]
+					local b = path[math.min(idx + 1, #path)]
+					local pos = a:Lerp(b, frac)
+					local look = (b - a).Unit
+					local bob = math.abs(math.sin(seg * 6)) * 0.15
+					for pi, part in ipairs(n.parts) do
+						local off = Vector3.new(0, 1.2 + bob, 0)
+						if pi == 2 then
+							off = Vector3.new(0, 2.3 + bob, 0)
+						elseif pi == 3 then
+							off = Vector3.new(0, 2.75 + bob, 0)
+						elseif pi == 4 then
+							off = Vector3.new(-0.6, 1.7 + bob + math.sin(seg * 7) * 0.3, 0)
+						elseif pi == 5 then
+							off = Vector3.new(0.6, 1.7 + bob + math.sin(seg * 7 + 3.14) * 0.3, 0)
+						end
+						part:PivotTo(CFrame.lookAt(pos + off, pos + off + look))
+					end
+				end
+			end
+
+			-- Fish swim in circles
+			for _, school in fishSchools do
+				for fi, fish in ipairs(school.parts) do
+					local a = t * school.speed + school.phase + fi * 0.35
+					local pos = school.center + Vector3.new(
+						math.cos(a) * school.radius,
+						math.sin(a * 1.3 + fi) * 0.6,
+						math.sin(a) * school.radius
+					)
+					local nextA = a + 0.1
+					local nextPos = school.center + Vector3.new(
+						math.cos(nextA) * school.radius,
+						math.sin(nextA * 1.3 + fi) * 0.6,
+						math.sin(nextA) * school.radius
+					)
+					fish:PivotTo(CFrame.lookAt(pos, nextPos))
+				end
 			end
 		end
 	end)
@@ -5585,6 +6032,27 @@ local PROMPTS = {
 		text = "Open Map",
 		action = "travel",
 	},
+	{
+		partName = "ChestBase",
+		promptName = "OpenChest",
+		text = "Open the Sunken Chest",
+		action = "chest",
+		chestKey = "abyss",
+	},
+	{
+		partName = "IsleChest",
+		promptName = "OpenIsleChest",
+		text = "Open the Isle Chest",
+		action = "chest",
+		chestKey = "isle",
+	},
+	{
+		partName = "GrottoChest",
+		promptName = "OpenGrottoChest",
+		text = "Open the Grotto Chest",
+		action = "chest",
+		chestKey = "grotto",
+	},
 }
 
 function WorldInteractionsService:SetupPrompts()
@@ -5602,21 +6070,45 @@ function WorldInteractionsService:SetupPrompts()
 				prompt.ObjectText = def.partName
 				prompt.Parent = part
 				prompt.Triggered:Connect(function(player)
-					self:OnPrompt(player, def.action)
+					self:OnPrompt(player, def.action, def.chestKey)
 				end)
 			end
 		end
 	end)
 end
 
-function WorldInteractionsService:OnPrompt(player: Player, action: string)
+function WorldInteractionsService:OnPrompt(player: Player, action: string, chestKey: string?)
 	if action == "talk" then
 		self:SendGuide(player)
 	elseif action == "shop" then
 		Remotes:SendToClient(player, { type = "OpenPanel", payload = { panel = "shop" } })
 	elseif action == "travel" then
 		Remotes:SendToClient(player, { type = "OpenPanel", payload = { panel = "travel" } })
+	elseif action == "chest" and chestKey then
+		self:OpenChest(player, chestKey)
 	end
+end
+
+-- Secret chests: one-time pearl reward per account (world collectibles)
+function WorldInteractionsService:OpenChest(player: Player, chestKey: string)
+	local data = self.ctx.Services.DataService:GetData(player)
+	if not data then
+		return
+	end
+	if data.flags.chestsClaimed[chestKey] then
+		Remotes:SendToClient(player, {
+			type = "EventBanner",
+			payload = { kind = "chestEmpty", text = "This chest is empty — you already claimed it!" },
+		})
+		return
+	end
+	data.flags.chestsClaimed[chestKey] = true
+	local pearls = chestKey == "abyss" and 15 or 10
+	self.ctx.Services.EconomyService:AddPearls(player, pearls, "chest:" .. chestKey)
+	Remotes:SendToClient(player, {
+		type = "EventBanner",
+		payload = { kind = "chest", text = "💎 You found " .. pearls .. " pearls in the chest!" },
+	})
 end
 
 function WorldInteractionsService:Init(ctx)

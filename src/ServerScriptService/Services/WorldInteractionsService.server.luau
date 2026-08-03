@@ -131,6 +131,27 @@ local PROMPTS = {
 		text = "Open Map",
 		action = "travel",
 	},
+	{
+		partName = "ChestBase",
+		promptName = "OpenChest",
+		text = "Open the Sunken Chest",
+		action = "chest",
+		chestKey = "abyss",
+	},
+	{
+		partName = "IsleChest",
+		promptName = "OpenIsleChest",
+		text = "Open the Isle Chest",
+		action = "chest",
+		chestKey = "isle",
+	},
+	{
+		partName = "GrottoChest",
+		promptName = "OpenGrottoChest",
+		text = "Open the Grotto Chest",
+		action = "chest",
+		chestKey = "grotto",
+	},
 }
 
 function WorldInteractionsService:SetupPrompts()
@@ -148,21 +169,45 @@ function WorldInteractionsService:SetupPrompts()
 				prompt.ObjectText = def.partName
 				prompt.Parent = part
 				prompt.Triggered:Connect(function(player)
-					self:OnPrompt(player, def.action)
+					self:OnPrompt(player, def.action, def.chestKey)
 				end)
 			end
 		end
 	end)
 end
 
-function WorldInteractionsService:OnPrompt(player: Player, action: string)
+function WorldInteractionsService:OnPrompt(player: Player, action: string, chestKey: string?)
 	if action == "talk" then
 		self:SendGuide(player)
 	elseif action == "shop" then
 		Remotes:SendToClient(player, { type = "OpenPanel", payload = { panel = "shop" } })
 	elseif action == "travel" then
 		Remotes:SendToClient(player, { type = "OpenPanel", payload = { panel = "travel" } })
+	elseif action == "chest" and chestKey then
+		self:OpenChest(player, chestKey)
 	end
+end
+
+-- Secret chests: one-time pearl reward per account (world collectibles)
+function WorldInteractionsService:OpenChest(player: Player, chestKey: string)
+	local data = self.ctx.Services.DataService:GetData(player)
+	if not data then
+		return
+	end
+	if data.flags.chestsClaimed[chestKey] then
+		Remotes:SendToClient(player, {
+			type = "EventBanner",
+			payload = { kind = "chestEmpty", text = "This chest is empty — you already claimed it!" },
+		})
+		return
+	end
+	data.flags.chestsClaimed[chestKey] = true
+	local pearls = chestKey == "abyss" and 15 or 10
+	self.ctx.Services.EconomyService:AddPearls(player, pearls, "chest:" .. chestKey)
+	Remotes:SendToClient(player, {
+		type = "EventBanner",
+		payload = { kind = "chest", text = "💎 You found " .. pearls .. " pearls in the chest!" },
+	})
 end
 
 function WorldInteractionsService:Init(ctx)
