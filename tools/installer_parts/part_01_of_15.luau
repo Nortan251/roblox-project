@@ -48,6 +48,7 @@ local Config = {}
 Config.SAVE_VERSION = 1
 Config.SAVE_KEY_PREFIX = "TD_Save_v"
 Config.AUTOSAVE_INTERVAL = 90 -- seconds
+Config.AUTO_TERRAIN = true -- build real islands at server start (runtime terrain)
 
 -- ── Leveling ─────────────────────────────────────────────────────────────
 Config.XP_BASE = 100 -- xp needed from level N to N+1 = XP_BASE * N^XP_EXPONENT
@@ -235,6 +236,7 @@ local Config = {}
 Config.SAVE_VERSION = 1
 Config.SAVE_KEY_PREFIX = "TD_Save_v"
 Config.AUTOSAVE_INTERVAL = 90 -- seconds
+Config.AUTO_TERRAIN = true -- build real islands at server start (runtime terrain)
 
 -- ── Leveling ─────────────────────────────────────────────────────────────
 Config.XP_BASE = 100 -- xp needed from level N to N+1 = XP_BASE * N^XP_EXPONENT

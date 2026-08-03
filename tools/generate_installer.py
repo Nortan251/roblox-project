@@ -36,6 +36,7 @@ TREE = {
     "ServerScriptService/Services/AmbienceService": "Script",
     "ServerScriptService/Services/FishingService": "Script",
     "ServerScriptService/Services/WorldInteractionsService": "Script",
+    "ServerScriptService/Services/AutoTerrainService": "Script",
     "ServerScriptService/Bootstrap": "Script",
     "StarterPlayer/StarterPlayerScripts/Bootstrap": "LocalScript",
     "StarterPlayer/StarterPlayerScripts/Controllers": "Folder",

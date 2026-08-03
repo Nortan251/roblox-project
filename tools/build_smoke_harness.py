@@ -94,6 +94,7 @@ envBase.players = {
 envBase.ws = {
     DescendantAdded = { Connect = function() end },
     FindFirstChild = function() return nil end,
+    FindFirstChildOfClass = function() return nil end,
     CurrentCamera = { CFrame = { LookVector = { X = 0, Y = 0, Z = -1 } } },
 }
 envBase.dss = { GetDataStore = function() return { GetAsync = function() return nil end, SetAsync = function() end } end,
@@ -226,7 +227,7 @@ order = [
     "Services.EconomyService", "Services.InventoryService",
     "Services.QuestService", "Services.EventService",
     "Services.LeaderboardService", "Services.ShopService",
-    "Services.WorldInteractionsService", "Services.FishingService",
+    "Services.WorldInteractionsService", "Services.AutoTerrainService", "Services.FishingService",
     "Services.TravelService", "Services.AmbienceService",
     "Bootstrap.server",
     "Modules.Theme", "Modules.UiKit", "Modules.ClientState", "Modules.FishVisuals",
