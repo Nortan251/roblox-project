@@ -24,6 +24,7 @@ local ORDER = {
 	"QuestService",
 	"EventService",
 	"LeaderboardService",
+	"WorldInteractionsService",
 	"FishingService",
 	"TravelService",
 	"AmbienceService",
@@ -81,6 +82,13 @@ Remotes:OnServerMessage(function(player: Player, message: any)
 end)
 
 -- Full state snapshot request (client calls after UI init)
+ctx.MessageHandlers.GuideDone = function(player: Player)
+	local world = ctx.Services.WorldInteractionsService
+	if world and world.OnGuideDone then
+		world:OnGuideDone(player)
+	end
+end
+
 ctx.MessageHandlers.SyncRequest = function(player: Player)
 	local data = ctx.Services.DataService:GetData(player)
 	if not data then
@@ -99,6 +107,10 @@ ctx.Services.DataService:OnProfileReady(function(player: Player, _data: any)
 	ctx.Services.InventoryService:SendInventory(player)
 	ctx.Services.QuestService:SendQuestUpdate(player)
 	Remotes:SendToClient(player, { type = "WorldState", payload = ctx.Services.EventService:GetWorldState() })
+	local world = ctx.Services.WorldInteractionsService
+	if world and world.SendGuide then
+		world:SendGuide(player)
+	end
 end)
 
 -- Graceful shutdown: save everything

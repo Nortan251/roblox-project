@@ -123,6 +123,10 @@ export type ProfileData = {
 		starterClaimed: boolean,
 		invUpgradeTier: number, -- 0..3 inventory upgrades bought
 		cosmeticsOwned: { [string]: boolean },
+		guideFirstCast: boolean,
+		guideFirstReel: boolean,
+		guideFirstCatch: boolean,
+		guideFirstBuy: boolean,
 	},
 }
 

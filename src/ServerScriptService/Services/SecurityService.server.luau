@@ -32,6 +32,7 @@ local VALID_TYPES: { [string]: boolean } = {
 	ClaimWeekly = true,
 	RerollQuest = true,
 	FastTravel = true,
+	GuideDone = true,
 	BuyCosmetic = true,
 	EquipCosmetic = true,
 	EquipTitle = true,

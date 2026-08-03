@@ -164,6 +164,10 @@ function ShopService:BuyRod(player: Player, rodId: any)
 	if fishing and fishing.UpdateRodColor then
 		fishing:UpdateRodColor(player)
 	end
+	local world = self.ctx.Services.WorldInteractionsService
+	if world and world.OnFirstBuy then
+		world:OnFirstBuy(player)
+	end
 end
 
 function ShopService:EquipRod(player: Player, rodId: any)

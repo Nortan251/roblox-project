@@ -226,10 +226,11 @@ order = [
     "Services.EconomyService", "Services.InventoryService",
     "Services.QuestService", "Services.EventService",
     "Services.LeaderboardService", "Services.ShopService",
-    "Services.FishingService", "Services.TravelService", "Services.AmbienceService",
+    "Services.WorldInteractionsService", "Services.FishingService",
+    "Services.TravelService", "Services.AmbienceService",
     "Bootstrap.server",
     "Modules.Theme", "Modules.UiKit", "Modules.ClientState", "Modules.FishVisuals",
-    "Controllers.AudioController", "Controllers.CastController",
+    "Controllers.AudioController", "Controllers.GuideController", "Controllers.CastController",
     "Controllers.UIController", "Controllers.MenuUIController",
     "Bootstrap.client",
 ]

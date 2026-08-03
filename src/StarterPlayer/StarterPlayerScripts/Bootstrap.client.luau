@@ -29,7 +29,7 @@ ctx.RegisterHandler = function(msgType: string, fn: (any) -> ())
 end
 
 -- Controller load order (Audio first so buttons can click-sound immediately)
-local CONTROLLERS = { "AudioController", "CastController", "UIController", "MenuUIController" }
+local CONTROLLERS = { "AudioController", "GuideController", "CastController", "UIController", "MenuUIController" }
 
 for _, name in pairs(CONTROLLERS) do
 	local ok, controller = pcall(function()

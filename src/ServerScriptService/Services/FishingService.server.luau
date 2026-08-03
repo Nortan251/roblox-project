@@ -191,6 +191,12 @@ function FishingService:HandleCast(player: Player, payload: any)
 		return
 	end
 
+	-- Guide: first cast
+	local world = self.ctx.Services.WorldInteractionsService
+	if world and world.OnCast then
+		world:OnCast(player)
+	end
+
 	-- Consume bait (equipped bait, 1 per cast; Golden Lure Pass makes golden free)
 	local equippedBait = data.flags.equippedBait
 	if equippedBait then
@@ -373,6 +379,10 @@ function FishingService:StartBite(uid: number)
 	local rod = RodCatalog.Get(data.equippedRod) :: Types.RodDef
 
 	state.phase = "reeling"
+	local world = self.ctx.Services.WorldInteractionsService
+	if world and world.OnReelStart then
+		world:OnReelStart(state.player)
+	end
 	state.fishId = def.id
 	state.fishName = def.name
 	state.rarity = def.rarity

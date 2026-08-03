@@ -224,6 +224,12 @@ function InventoryService:AddCatch(
 		questService:OnFishCaught(player, fishDef, isNight, isStorm, shiny)
 	end
 
+	-- Guide: first catch
+	local world = ctx.Services.WorldInteractionsService
+	if world and world.OnFirstCatch then
+		world:OnFirstCatch(player)
+	end
+
 	-- Weekly contest submission
 	local leaderboardService = ctx.Services.LeaderboardService
 	if leaderboardService and not autoSold then

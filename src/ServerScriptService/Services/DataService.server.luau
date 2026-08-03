@@ -80,6 +80,10 @@ function DataService:NewData(): Types.ProfileData
 			starterClaimed = false,
 			invUpgradeTier = 0,
 			cosmeticsOwned = {},
+			guideFirstCast = false,
+			guideFirstReel = false,
+			guideFirstCatch = false,
+			guideFirstBuy = false,
 		},
 	}
 	return data
@@ -258,6 +262,10 @@ function DataService:Sanitize(raw: any): Types.ProfileData
 				end
 			end
 		end
+		data.flags.guideFirstCast = f.guideFirstCast == true
+		data.flags.guideFirstReel = f.guideFirstReel == true
+		data.flags.guideFirstCatch = f.guideFirstCatch == true
+		data.flags.guideFirstBuy = f.guideFirstBuy == true
 	end
 	return data
 end
