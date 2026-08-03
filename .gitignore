@@ -1,0 +1,7 @@
+tools/luau-bin/
+tools/rbxmk/rbxmk
+*.zip
+*.rbxl
+__pycache__/
+*.pyc
+.env
