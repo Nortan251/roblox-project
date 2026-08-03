@@ -2099,6 +2099,40 @@ game:BindToClose(function()
 end)
 
 print("[Tidebound] Server booted. Services: " .. table.concat(ORDER, ", "))
+
+-- ── BOOT BEACON (diagnostic: proves server code runs in the live game) ──
+-- 1) Analytics counter -> visible in Creator Dashboard > Analytics
+local AnalyticsService = game:GetService("AnalyticsService")
+pcall(function()
+	AnalyticsService:ReportCounter("TideboundServerBoot", 1)
+end)
+-- 2) Floating sign above spawn -> visible to every player in-world
+task.delay(4, function()
+	local beacon = Instance.new("Part")
+	beacon.Name = "BootBeacon"
+	beacon.Anchored = true
+	beacon.CanCollide = false
+	beacon.CanQuery = false
+	beacon.CanTouch = false
+	beacon.Size = Vector3.new(1, 1, 1)
+	beacon.Transparency = 1
+	beacon.CFrame = CFrame.new(0, 14, 66)
+	beacon.Parent = Workspace
+	local bg = Instance.new("BillboardGui")
+	bg.Name = "BeaconGUI"
+	bg.Size = UDim2.new(0, 600, 0, 120)
+	bg.AlwaysOnTop = true
+	bg.Parent = beacon
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(1, 0, 1, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = "TIDEBOUND ONLINE — v14\n(server scripts running)"
+	lbl.TextColor3 = Color3.fromRGB(90, 220, 170)
+	lbl.TextSize = 32
+	lbl.Font = Enum.Font.GothamBold
+	lbl.TextStrokeTransparency = 0
+	lbl.Parent = bg
+end)
 ]===]
 
 -- ServerScriptService/Services
@@ -7327,6 +7361,10 @@ function UIController:BuildUI()
 	-- Storm countdown chip
 	stormChip = UiKit.Label(gui, "", UDim2.fromScale(0.22, 0.04), UDim2.fromScale(0.5, 0.06), Theme.Storm, Theme.FontBold, 14)
 	stormChip.AnchorPoint = Vector2.new(0.5, 0)
+
+	-- Version label (diagnostic: proves client code runs)
+	local versionLabel = UiKit.Label(gui, "v14", UDim2.fromScale(0.06, 0.03), UDim2.fromScale(0.02, 0.96), Theme.TextDim, nil, 12)
+	versionLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 	-- First-catch hint (dismisses on the player's first catch)
 	hintLabel = UiKit.Label(gui, "🎣 Hold Q (or tap CAST) to charge — release to cast!", UDim2.fromScale(0.5, 0.05), UDim2.fromScale(0.5, 0.9), Theme.Gold, Theme.FontBold, 15)

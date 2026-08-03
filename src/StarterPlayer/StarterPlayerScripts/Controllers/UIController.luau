@@ -90,6 +90,10 @@ function UIController:BuildUI()
 	stormChip = UiKit.Label(gui, "", UDim2.fromScale(0.22, 0.04), UDim2.fromScale(0.5, 0.06), Theme.Storm, Theme.FontBold, 14)
 	stormChip.AnchorPoint = Vector2.new(0.5, 0)
 
+	-- Version label (diagnostic: proves client code runs)
+	local versionLabel = UiKit.Label(gui, "v14", UDim2.fromScale(0.06, 0.03), UDim2.fromScale(0.02, 0.96), Theme.TextDim, nil, 12)
+	versionLabel.TextXAlignment = Enum.TextXAlignment.Left
+
 	-- First-catch hint (dismisses on the player's first catch)
 	hintLabel = UiKit.Label(gui, "🎣 Hold Q (or tap CAST) to charge — release to cast!", UDim2.fromScale(0.5, 0.05), UDim2.fromScale(0.5, 0.9), Theme.Gold, Theme.FontBold, 15)
 	hintLabel.AnchorPoint = Vector2.new(0.5, 0.5)
